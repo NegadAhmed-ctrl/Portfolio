@@ -1,0 +1,606 @@
+:root {
+    --bg-color: #081b29;
+    --second-bg-color: #112e42;
+    --text-color: #ededed;
+    --main-color: #00eeff;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; text-decoration: none; border: none; outline: none; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg-color); color: var(--text-color); }
+
+.header { 
+    position: fixed; top: 0; left: 0; width: 100%; padding: 2rem 9%; 
+    display: flex; justify-content: space-between; align-items: center; 
+    background: rgba(8, 27, 41, 0.85); backdrop-filter: blur(10px); z-index: 100; 
+}
+.logo { font-size: 1.8rem; color: #fff; font-weight: 700; }
+.logo span { color: var(--main-color); }
+
+.navbar a { font-size: 1.1rem; color: #fff; margin-left: 2rem; transition: .3s; }
+.navbar a:hover, .navbar a.active { color: var(--main-color); }
+
+/* CV Button with Frame */
+.btn-cv-frame {
+    background: transparent;
+    color: var(--main-color);
+    border: 2px solid var(--main-color);
+    padding: 0.7rem 2rem;
+    border-radius: 40px;
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: 0.3s;
+    box-shadow: 0 0 10px rgba(0, 238, 255, 0.3);
+}
+
+.btn-cv-frame i {
+    font-size: 1.2rem;
+}
+
+.btn-cv-frame:hover {
+    background: var(--main-color);
+    color: var(--bg-color);
+    box-shadow: 0 0 20px var(--main-color);
+    border-color: #fff;
+    transform: scale(1.05);
+}
+
+.hero { 
+    min-height: 100vh;
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    padding: 0 9%; 
+    gap: 6rem; 
+}
+
+/* ===== FIXED: Perfect Circle Image Frame ===== */
+.hero-img { 
+    width: 400px; 
+    height: 400px; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.glowing-circle { 
+    width: 100%; 
+    height: 100%; 
+    border-radius: 50%; /* This makes the container a circle */
+    border: 4px solid var(--main-color); 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    box-shadow: 0 0 25px var(--main-color), inset 0 0 15px var(--main-color); 
+    overflow: hidden; /* This keeps image inside the circle */
+    position: relative;
+}
+
+.glowing-circle img { 
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover; /* This ensures image covers the circle without stretching */
+    object-position: center 20%; /* Adjust this to center your face */
+    display: block;
+    border-radius: 50%; /* This ensures the image itself is also circular */
+    transition: transform 0.3s ease;
+}
+
+.glowing-circle img:hover {
+    transform: scale(1.05); /* Optional: slight zoom on hover */
+}
+/* ====================================== */
+
+.hero-content { 
+    flex: 1; 
+    max-width: 600px;
+}
+
+.hero-content h3 { 
+    font-size: 2rem; 
+    font-weight: 400; 
+    margin-bottom: 0.5rem; 
+    color: #ddd;
+}
+
+.hero-content h1 { 
+    font-size: 4.5rem; 
+    font-weight: 700; 
+    line-height: 1.1;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(135deg, #fff, #00eeff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.hero-content h3 span { 
+    color: var(--main-color); 
+    font-weight: 600;
+}
+
+.hero-content p { 
+    font-size: 1.1rem; 
+    margin: 1.5rem 0 2rem; 
+    color: #aaa; 
+    max-width: 500px; 
+}
+
+.hero-content strong {
+    color: var(--main-color);
+}
+
+/* Button Group with hover effects */
+.btn-group { 
+    display: flex; 
+    gap: 1.5rem; 
+    margin-top: 2rem; 
+}
+
+.btn-main { 
+    padding: 14px 32px; 
+    border-radius: 40px; 
+    font-weight: 600; 
+    border: 2px solid var(--main-color); 
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 1rem;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-primary { 
+    background: var(--main-color); 
+    color: var(--bg-color); 
+}
+
+.btn-primary:hover {
+    background: transparent;
+    color: var(--main-color);
+    box-shadow: 0 0 15px var(--main-color);
+    transform: scale(1.05);
+}
+
+.btn-outline { 
+    background: transparent; 
+    color: var(--main-color); 
+}
+
+.btn-outline:hover {
+    background: var(--main-color);
+    color: var(--bg-color);
+    box-shadow: 0 0 15px var(--main-color);
+    transform: scale(1.05);
+}
+
+.projects { 
+    padding: 100px 9%; 
+    background: var(--second-bg-color); 
+}
+.heading { 
+    font-size: 3.5rem; 
+    text-align: center; 
+    margin-bottom: 3rem; 
+}
+.heading span { 
+    color: var(--main-color); 
+}
+.projects-container { 
+    display: flex; 
+    justify-content: center; 
+    gap: 4rem; 
+    flex-wrap: wrap; 
+}
+
+.project-box {
+    position: relative;
+    width: 320px; 
+    aspect-ratio: 9 / 19.5; 
+    border-radius: 2.5rem;
+    overflow: hidden;
+    border: 8px solid #1a1a1a; 
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    background: #000;
+}
+
+.project-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.project-layer {
+    position: absolute;
+    bottom: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(rgba(0,0,0,0.1), var(--main-color));
+    display: flex; justify-content: center; align-items: center; flex-direction: column;
+    transform: translateY(100%); transition: 0.5s ease; color: #081b29; font-weight: 600;
+    text-align: center; padding: 0 1rem;
+}
+
+.project-box:hover .project-layer { transform: translateY(0); }
+
+.project-layer h4 { font-size: 1.8rem; margin-bottom: 0.5rem; }
+.project-layer p { font-size: 1rem; }
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .header { padding: 1rem 5%; }
+    .navbar a { margin-left: 1rem; font-size: 0.9rem; }
+    .btn-cv-frame { padding: 0.5rem 1.2rem; font-size: 0.9rem; }
+    
+    .hero { 
+        flex-direction: column-reverse; 
+        padding: 8rem 5% 3rem;
+        gap: 2rem;
+        text-align: center;
+    }
+    
+    .hero-img { width: 280px; height: 280px; }
+    .hero-content h1 { font-size: 3rem; }
+    .hero-content p { margin: 1rem auto; }
+    .btn-group { justify-content: center; }
+    
+    .projects-container { gap: 2rem; }
+    .project-box { width: 280px; }
+}
+/* Project Horizontal Buttons Styling */
+.project-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+.project-btn {
+    background: transparent;
+    color: var(--text-color);
+    border: 2px solid var(--main-color);
+    padding: 10px 25px;
+    border-radius: 30px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.3s ease;
+}
+
+.project-btn.active, .project-btn:hover {
+    background: var(--main-color);
+    color: var(--bg-color);
+    box-shadow: 0 0 15px var(--main-color);
+}
+
+/* Toggle Logic */
+.project-content {
+    display: none; /* Hidden by default */
+}
+
+.project-content.active {
+    display: block; /* Shown when button is clicked */
+}
+
+.placeholder-box {
+    text-align: center;
+    padding: 50px;
+    background: var(--bg-color);
+    border: 2px dashed var(--main-color);
+    border-radius: 2rem;
+    min-height: 300px;
+}
+
+/* Ensure the HookVibe grid stays horizontal */
+.projects-container {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+/* KEEPING ALL YOUR ORIGINAL STYLES UNCHANGED ABOVE THIS... */
+
+/* --- Added Project Navigation Styles --- */
+.project-nav {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-bottom: 4rem;
+}
+
+.proj-btn {
+    background: transparent;
+    border: 2px solid var(--main-color);
+    color: var(--text-color);
+    padding: 12px 30px;
+    border-radius: 30px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.proj-btn.active, .proj-btn:hover {
+    background: var(--main-color);
+    color: var(--bg-color);
+    box-shadow: 0 0 15px var(--main-color);
+}
+
+/* Toggle Display Logic */
+.project-content {
+    display: none;
+    animation: fadeIn 0.5s ease;
+}
+
+.project-content.active {
+    display: block;
+}
+
+.placeholder-content {
+    text-align: center;
+    padding: 60px;
+    background: var(--second-bg-color);
+    border-radius: 2rem;
+    border: 2px dashed var(--main-color);
+}
+
+.coming-soon {
+    margin-top: 20px;
+    color: var(--main-color);
+    font-style: italic;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Ensure HookVibe photos remain horizontal/grid */
+.projects-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 2rem;
+}
+/* Laptop Specific Grid */
+.laptop-box {
+    width: 450px !important; /* عريضة عشان تناسب شكل اللابتوب */
+    aspect-ratio: 16 / 10 !important; /* أبعاد شاشة اللابتوب */
+    border-radius: 1rem !important;
+    border: 5px solid #1a1a1a !important;
+}
+
+/* عشان الصور تملى الـ box بتاع اللابتوب صح */
+.laptop-box img {
+    object-fit: fill !important; 
+}
+:root {
+    --bg-color: #081b29;
+    --second-bg-color: #112e42;
+    --text-color: #ededed;
+    --main-color: #00eeff;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; text-decoration: none; border: none; outline: none; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg-color); color: var(--text-color); }
+
+/* --- Header & Navigation --- */
+.header { 
+    position: fixed; top: 0; left: 0; width: 100%; padding: 2rem 9%; 
+    display: flex; justify-content: space-between; align-items: center; 
+    background: rgba(8, 27, 41, 0.85); backdrop-filter: blur(10px); z-index: 100; 
+}
+.logo { font-size: 1.8rem; color: #fff; font-weight: 700; }
+.logo span { color: var(--main-color); }
+.navbar a { font-size: 1.1rem; color: #fff; margin-left: 2rem; transition: .3s; }
+.navbar a:hover, .navbar a.active { color: var(--main-color); }
+
+.btn-cv-frame { 
+    background: transparent; color: var(--main-color); border: 2px solid var(--main-color); 
+    padding: 0.7rem 2rem; border-radius: 40px; font-size: 1rem; font-weight: 600; 
+    display: inline-flex; align-items: center; gap: 8px; transition: 0.3s; 
+    box-shadow: 0 0 10px rgba(0, 238, 255, 0.3); 
+}
+.btn-cv-frame:hover { background: var(--main-color); color: var(--bg-color); box-shadow: 0 0 20px var(--main-color); transform: scale(1.05); }
+
+/* --- Hero Section & Profile Image Fix --- */
+.hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 0 9%; gap: 6rem; }
+.hero-img { width: 400px; height: 400px; }
+.glowing-circle { 
+    width: 100%; height: 100%; border-radius: 50%; border: 4px solid var(--main-color); 
+    display: flex; justify-content: center; align-items: center; 
+    box-shadow: 0 0 25px var(--main-color), inset 0 0 15px var(--main-color); 
+    overflow: hidden; 
+}
+
+/* فيكس صورتك الشخصية عشان تظهر في النص بالظبط */
+.glowing-circle img { 
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover; 
+    object-position: center center; 
+}
+
+.hero-content h1 { font-size: 4.5rem; font-weight: 700; background: linear-gradient(135deg, #fff, #00eeff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.btn-group { display: flex; gap: 1.5rem; margin-top: 2rem; }
+.btn-main { padding: 14px 32px; border-radius: 40px; font-weight: 600; border: 2px solid var(--main-color); transition: 0.3s; cursor: pointer; }
+.btn-primary { background: var(--main-color); color: var(--bg-color); }
+.btn-outline { background: transparent; color: var(--main-color); }
+
+/* --- Projects Section --- */
+.projects { padding: 100px 9%; background: var(--second-bg-color); }
+.heading { font-size: 3.5rem; text-align: center; margin-bottom: 3rem; }
+.heading span { color: var(--main-color); }
+
+.project-nav { display: flex; justify-content: center; gap: 2rem; margin-bottom: 4rem; flex-wrap: wrap; }
+.proj-btn { 
+    background: transparent; border: 2px solid var(--main-color); color: var(--text-color); 
+    padding: 12px 30px; border-radius: 30px; font-weight: 600; cursor: pointer; transition: 0.3s; 
+}
+.proj-btn.active, .proj-btn:hover { background: var(--main-color); color: var(--bg-color); box-shadow: 0 0 15px var(--main-color); }
+
+.projects-container { display: flex; justify-content: center; gap: 2.5rem; flex-wrap: wrap; align-items: center; }
+
+/* --- 1. iPhone Frame (للتطبيقات التلاتة الأولى) --- */
+.iphone-frame {
+    position: relative;
+    width: 260px;
+    height: 540px;
+    background: #1a1a1a;
+    border: 8px solid #2c2c2c;
+    border-radius: 2.5rem;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+    overflow: hidden;
+    transition: 0.4s ease;
+}
+
+/* Dynamic Island */
+.iphone-frame::before {
+    content: ''; position: absolute; top: 12px; left: 50%; transform: translateX(-50%);
+    width: 75px; height: 22px; background: #000; border-radius: 20px; z-index: 10;
+}
+
+.iphone-frame img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+.iphone-frame:hover { transform: translateY(-10px); border-color: var(--main-color); }
+
+/* --- 2. Laptop Frame (لمشروع الدكتور عمر بس) --- */
+.laptop-frame {
+    position: relative;
+    width: 600px; 
+    height: 360px;
+    background: #1a1a1a;
+    border: 12px solid #2c2c2c;
+    border-radius: 1rem;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.7);
+    overflow: hidden;
+    transition: 0.4s ease;
+    border-bottom: 18px solid #222; /* بتدي شكل قاعدة اللابتوب */
+}
+
+.laptop-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: fill; /* أهم سطر عشان الصورة تبقى Full Size */
+    display: block;
+}
+
+/* Laptop Camera */
+.laptop-frame::before {
+    content: ''; position: absolute; top: 5px; left: 50%; transform: translateX(-50%);
+    width: 7px; height: 7px; background: #333; border-radius: 50%; z-index: 10;
+}
+
+.laptop-frame img { width: 100%; height: 100%; object-fit: fill; }
+.laptop-frame:hover { transform: translateY(-10px); border-color: var(--main-color); }
+
+/* Animation */
+.project-content { display: none; animation: fadeIn 0.5s ease; }
+.project-content.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+/* --- Skills Section --- */
+.skills { background: var(--bg-color); padding: 100px 9%; }
+.skills-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; }
+.skill-card { 
+    background: var(--second-bg-color); padding: 3rem 2rem; border-radius: 2rem; text-align: center; 
+    border: 2px solid transparent; transition: 0.5s ease; cursor: default;
+}
+.skill-card:hover { border-color: var(--main-color); transform: scale(1.02); box-shadow: 0 0 20px var(--main-color); }
+.skill-card i { font-size: 4rem; color: var(--main-color); margin-bottom: 1rem; }
+.skill-card h3 { font-size: 1.5rem; margin-bottom: 10px; }
+
+/* --- Contact Section Modern Design --- */
+.contact {
+    padding: 100px 9%;
+    background: var(--second-bg-color);
+}
+
+.contact-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 4rem;
+    margin-top: 3rem;
+    flex-wrap: wrap; /* عشان يظبط على الموبايل */
+}
+
+/* ستايل بيانات التواصل */
+.contact-info {
+    flex: 1;
+    min-width: 300px;
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    background: var(--bg-color);
+    padding: 1.5rem;
+    border-radius: 1.2rem;
+    border: 1px solid transparent;
+    transition: 0.3s;
+}
+
+.info-item:hover {
+    border-color: var(--main-color);
+    transform: translateX(10px);
+    box-shadow: 0 0 15px rgba(0, 238, 255, 0.1);
+}
+
+.info-item i {
+    font-size: 2.5rem;
+    color: var(--main-color);
+}
+
+.info-item h3 {
+    font-size: 1.2rem;
+    color: var(--main-color);
+}
+
+.info-item p {
+    font-size: 1rem;
+    color: var(--text-color);
+}
+
+/* ستايل الفورم */
+.contact form {
+    flex: 1.2;
+    min-width: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.contact form .input-box {
+    display: flex;
+    gap: 1rem;
+}
+
+.contact form .input-box input, 
+.contact form textarea {
+    width: 100%;
+    padding: 1.2rem;
+    background: var(--bg-color);
+    color: var(--text-color);
+    border-radius: 0.8rem;
+    font-size: 1rem;
+}
+
+.contact form .btn-main {
+    width: fit-content;
+    padding: 12px 35px;
+    cursor: pointer;
+}
+
+/* التحسينات النهائية للسكرول */
+html { scroll-padding-top: 7rem; }
+
+.education-text i {
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+/* تحسين شكل الـ Hero content عشان الكلام ميبقاش لازق في بعضه */
+.hero-content p {
+    line-height: 1.6;
+}
