@@ -12,7 +12,7 @@
 
     <header class="header">
         <a href="#" class="logo">Port<span>folio.</span></a>
-        <nav class="navbar">
+        <nav class="navbar" id="navbar">
             <a href="#home" class="active">Home</a>
             <a href="#skills">Skills</a>
             <a href="#projects">Projects</a>
@@ -21,6 +21,9 @@
         <a href="Resume.pdf" download="Negad_Ahmed_CV" class="btn-cv-frame" id="downloadCvBtn">
             <i class='bx bxs-download'></i> Download CV
         </a>
+        <div class="hamburger" id="hamburger">
+            <i class='bx bx-menu'></i>
+        </div>
     </header>
 
     <section class="hero" id="home">
@@ -30,23 +33,19 @@
             </div>
         </div>
         <div class="hero-content">
-    <h3>Hello, I'm</h3>
-    <h1>Negad Ahmed</h1>
-    <h3>And I'm a <span class="multiple-text"></span></h3>
-    
-    <p class="education-text" style="font-weight: 600; color: var(--main-color); margin: 10px 0; font-size: 1.2rem;">
-        <i class='bx bxs-graduation'></i> Computing & Data Science Student 
-        <br>
-        <span style="font-size: 1rem; color: var(--text-color); opacity: 0.9;">Alexandria University</span>
-    </p>
-
-<p>I am a Flutter Developer building high-performance mobile apps. My featured project, <strong>Smart Tracker</strong>, is a sophisticated financial dashboard with real-time data visualization and premium UI aesthetics.</p>    
-    <div class="btn-group">
-        <a href="#projects" class="btn-main btn-primary">My Projects</a>
-        <a href="#contact" class="btn-main btn-outline">Contact Me</a>
-    </div>
-</div>
-</div>
+            <h3>Hello, I'm</h3>
+            <h1>Negad Ahmed</h1>
+            <h3>And I'm a <span class="multiple-text"></span></h3>
+            <p class="education-text" style="font-weight: 600; color: var(--main-color); margin: 10px 0; font-size: 1.2rem;">
+                <i class='bx bxs-graduation'></i> Computing & Data Science Student
+                <br>
+                <span style="font-size: 1rem; color: var(--text-color); opacity: 0.9;">Alexandria University</span>
+            </p>
+            <p>Flutter developer & data science student building high-performance mobile apps, analytical dashboards, and full-stack web projects. Open to freelance work and collaborations.</p>
+            <div class="btn-group">
+                <a href="#projects" class="btn-main btn-primary">My Projects</a>
+                <a href="#contact" class="btn-main btn-outline">Contact Me</a>
+            </div>
         </div>
     </section>
 
@@ -56,22 +55,22 @@
             <div class="skill-card">
                 <i class='bx bxl-flutter'></i>
                 <h3>Mobile Dev</h3>
-                <p>Flutter & Dart Expert</p>
+                <p>Flutter & Dart · Provider · Firebase</p>
             </div>
             <div class="skill-card">
                 <i class='bx bxl-python'></i>
                 <h3>Data Science</h3>
-                <p>Python & Analytics</p>
+                <p>Python · Pandas · Scikit-learn · SAS</p>
             </div>
             <div class="skill-card">
                 <i class='bx bxl-firebase'></i>
                 <h3>Backend</h3>
-                <p>Firebase & Supabase</p>
+                <p>Firebase · Supabase · REST APIs</p>
             </div>
             <div class="skill-card">
-                <i class='bx bxl-adobe'></i>
-                <h3>UI/UX Design</h3>
-                <p>Figma & Aesthetics</p>
+                <i class='bx bx-code-alt'></i>
+                <h3>Web Dev</h3>
+                <p>React · Tailwind · HTML & CSS</p>
             </div>
         </div>
     </section>
@@ -86,86 +85,93 @@
         </div>
 
         <div id="tracker-project" class="project-content active">
+            <p class="project-desc">A smart financial dashboard built with Flutter — real-time expense tracking, interactive charts, and a premium dark UI. Built using Provider, fl_chart & SharedPreferences.</p>
             <div class="projects-container">
-                <div class="iphone-frame"><img src="Screenshot_1772903386.png"></div>
-                <div class="iphone-frame"><img src="Screenshot_1772903392.png"></div>
-                <div class="iphone-frame"><img src="Screenshot_1772903388.png"></div>
+                <div class="iphone-frame"><img src="Screenshot_1772903386.png" alt="Smart Tracker"></div>
+                <div class="iphone-frame"><img src="Screenshot_1772903392.png" alt="Smart Tracker"></div>
+                <div class="iphone-frame"><img src="Screenshot_1772903388.png" alt="Smart Tracker"></div>
             </div>
         </div>
 
         <div id="clinic-project" class="project-content">
+            <p class="project-desc">A doctor appointment booking app built with Flutter — smooth UI, appointment scheduling, and clinic management. Clean architecture with Firebase backend.</p>
             <div class="projects-container">
-                <div class="iphone-frame"><img src="Screenshot_1772577512.png"></div>
-                <div class="iphone-frame"><img src="Screenshot_1772577521.png"></div>
-                <div class="iphone-frame"><img src="Screenshot_1772577523.png"></div>
+                <div class="iphone-frame"><img src="Screenshot_1772577512.png" alt="Clinic App"></div>
+                <div class="iphone-frame"><img src="Screenshot_1772577521.png" alt="Clinic App"></div>
+                <div class="iphone-frame"><img src="Screenshot_1772577523.png" alt="Clinic App"></div>
             </div>
         </div>
 
         <div id="hookvibe-project" class="project-content">
+            <p class="project-desc">An AI-powered content tool built with Flutter — generates engaging hooks and viral content ideas. Integrates with AI APIs for instant creative output.</p>
             <div class="projects-container">
-                <div class="iphone-frame"><img src="Screenshot_1772411788.png"></div>
-                <div class="iphone-frame"><img src="Screenshot_1772411791.png"></div>
-                <div class="iphone-frame"><img src="Screenshot_1772411794.png"></div>
+                <div class="iphone-frame"><img src="Screenshot_1772411788.png" alt="HookVibe AI"></div>
+                <div class="iphone-frame"><img src="Screenshot_1772411791.png" alt="HookVibe AI"></div>
+                <div class="iphone-frame"><img src="Screenshot_1772411794.png" alt="HookVibe AI"></div>
             </div>
         </div>
 
         <div id="dr-omar-project" class="project-content">
-            <div class="projects-container">
-                <div class="laptop-frame"><img src="Screenshot 2026-05-12 034121.png"></div>
-                <div class="laptop-frame"><img src="Screenshot 2026-05-12 034152.png"></div>
-                <div class="laptop-frame"><img src="Screenshot 2026-05-12 034248.png"></div>
+            <p class="project-desc">A full-stack web platform for SAT/EST/ACT math prep — built with React, Tailwind CSS & Supabase. Features course pages, premium dark UI, and a complete content management system.</p>
+            <div class="projects-container laptop-grid">
+                <div class="laptop-frame"><img src="Screenshot_2026-05-12_034121.png" alt="Dr. Omar Website"></div>
+                <div class="laptop-frame"><img src="Screenshot_2026-05-12_034152.png" alt="Dr. Omar Website"></div>
+                <div class="laptop-frame"><img src="Screenshot_2026-05-12_034248.png" alt="Dr. Omar Website"></div>
             </div>
         </div>
     </section>
 
     <section class="contact" id="contact">
-    <h2 class="heading">Contact <span>Me!</span></h2>
-    
-    <div class="contact-wrapper">
-        <div class="contact-info">
-            <div class="info-item">
-                <i class='bx bxs-graduation'></i>
-                <div>
-                    <h3>Education</h3>
-                    <p>B.Sc. Computing & Data Science<br>Alexandria University</p>
+        <h2 class="heading">Contact <span>Me!</span></h2>
+        <div class="contact-wrapper">
+            <div class="contact-info">
+                <div class="info-item">
+                    <i class='bx bxs-graduation'></i>
+                    <div>
+                        <h3>Education</h3>
+                        <p>B.Sc. Computing & Data Science<br>Alexandria University</p>
+                    </div>
                 </div>
+                <a href="mailto:negadahmed71@gmail.com" class="info-item">
+                    <i class='bx bxl-gmail'></i>
+                    <div>
+                        <h3>Email</h3>
+                        <p>negadahmed71@gmail.com</p>
+                    </div>
+                </a>
+                <a href="tel:+201148333903" class="info-item">
+                    <i class='bx bxs-phone'></i>
+                    <div>
+                        <h3>Phone</h3>
+                        <p>+201148333903</p>
+                    </div>
+                </a>
+                <a href="https://www.linkedin.com/in/negad-ahmed-08146b37a" target="_blank" class="info-item">
+                    <i class='bx bxl-linkedin-square'></i>
+                    <div>
+                        <h3>LinkedIn</h3>
+                        <p>Negad Ahmed</p>
+                    </div>
+                </a>
+                <a href="https://github.com/negadahmed-ctrl" target="_blank" class="info-item">
+                    <i class='bx bxl-github'></i>
+                    <div>
+                        <h3>GitHub</h3>
+                        <p>negadahmed-ctrl</p>
+                    </div>
+                </a>
             </div>
 
-            <a href="mailto:negadahmed71@gmail.com" class="info-item">
-                <i class='bx bxl-gmail'></i>
-                <div>
-                    <h3>Email</h3>
-                    <p>negadahmed71@gmail.com</p>
+            <form action="#">
+                <div class="input-box">
+                    <input type="text" placeholder="Full Name">
+                    <input type="email" placeholder="Email Address">
                 </div>
-            </a>
-
-            <a href="tel:+201148333903" class="info-item">
-                <i class='bx bxs-phone'></i>
-                <div>
-                    <h3>Phone</h3>
-                    <p>+201148333903</p>
-                </div>
-            </a>
-
-            <a href="https://www.linkedin.com/in/negad-ahmed-08146b37a" target="_blank" class="info-item">
-    <i class='bx bxl-linkedin-square'></i>
-    <div>
-        <h3>LinkedIn</h3>
-        <p>Negad Ahmed</p>
-    </div>
-</a>
+                <textarea cols="30" rows="5" placeholder="Your Message"></textarea>
+                <input type="submit" value="Send Message" class="btn-main btn-primary">
+            </form>
         </div>
-
-        <form action="#">
-            <div class="input-box">
-                <input type="text" placeholder="Full Name">
-                <input type="email" placeholder="Email Address">
-            </div>
-            <textarea cols="30" rows="5" placeholder="Your Message"></textarea>
-            <input type="submit" value="Send Message" class="btn-main btn-primary">
-        </form>
-    </div>
-</section>
+    </section>
 
     <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
     <script src="script.js"></script>
