@@ -1,157 +1,56 @@
-// ============================================================
-// EmailJS Contact Form
-// ============================================================
-// STEP 1: Replace these 3 values with yours from emailjs.com
-const EMAILJS_PUBLIC_KEY   = "BUh86D_1FbdIOs7H2";
-const EMAILJS_SERVICE_ID   = "service_wkz7ui5";
-const EMAILJS_TEMPLATE_ID  = "template_67do1sj";
-// ============================================================
+document.documentElement.classList.add('js');
 
-(function () {
-    emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
-})();
+// Keep each frame tidy if an image file is missing
+document.querySelectorAll('.frame img').forEach(function (img) {
+  function mark() { img.closest('.frame').classList.add('missing'); }
+  img.addEventListener('error', mark);
+  if (img.complete && img.naturalWidth === 0) mark();
+});
 
-document.querySelector('.contact form').addEventListener('submit', function (e) {
+// Project tabs
+var tabs = Array.prototype.slice.call(document.querySelectorAll('[role=tab]'));
+function selectTab(tab) {
+  tabs.forEach(function (t) {
+    var on = t === tab;
+    t.setAttribute('aria-selected', on);
+    t.tabIndex = on ? 0 : -1;
+    document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
+  });
+}
+tabs.forEach(function (tab, i) {
+  tab.addEventListener('click', function () { selectTab(tab); });
+  tab.addEventListener('keydown', function (e) {
+    var step = { ArrowRight: 1, ArrowLeft: -1 }[e.key];
+    if (!step) return;
     e.preventDefault();
-
-    const nameInput    = this.querySelector('input[type="text"]');
-    const emailInput   = this.querySelector('input[type="email"]');
-    const messageInput = this.querySelector('textarea');
-    const submitBtn    = this.querySelector('input[type="submit"]');
-
-    // Basic validation
-    if (!nameInput.value.trim() || !emailInput.value.trim() || !messageInput.value.trim()) {
-        showToast('❗ Please fill in all fields.', 'error');
-        return;
-    }
-
-    submitBtn.value    = 'Sending...';
-    submitBtn.disabled = true;
-
-    const templateParams = {
-        from_name:    nameInput.value.trim(),
-        from_email:   emailInput.value.trim(),
-        message:      messageInput.value.trim(),
-        to_name:      'Negad Ahmed',
-    };
-
-    emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
-        .then(() => {
-            showToast('✅ Message sent! I\'ll get back to you soon.', 'success');
-            nameInput.value    = '';
-            emailInput.value   = '';
-            messageInput.value = '';
-        })
-        .catch((err) => {
-            console.error('EmailJS error:', err);
-            showToast('❌ Something went wrong. Please try again.', 'error');
-        })
-        .finally(() => {
-            submitBtn.value    = 'Send Message';
-            submitBtn.disabled = false;
-        });
+    if (document.documentElement.dir === 'rtl') step = -step;
+    var next = tabs[(i + step + tabs.length) % tabs.length];
+    selectTab(next);
+    next.focus();
+  });
 });
 
-function showToast(message, type) {
-    // Remove existing toast if any
-    const existing = document.getElementById('toast-msg');
-    if (existing) existing.remove();
+// Service cards: light follows the pointer, and a click preselects the form
+document.querySelectorAll('.card').forEach(function (card) {
+  card.addEventListener('pointermove', function (e) {
+    var box = card.getBoundingClientRect();
+    card.style.setProperty('--x', (e.clientX - box.left) + 'px');
+    card.style.setProperty('--y', (e.clientY - box.top) + 'px');
+  });
+  card.addEventListener('click', function () {
+    var select = document.querySelector('[name=type]');
+    if (select) select.value = card.dataset.type;
+  });
+});
 
-    const toast = document.createElement('div');
-    toast.id = 'toast-msg';
-    toast.textContent = message;
-    toast.style.cssText = `
-        position: fixed;
-        bottom: 30px;
-        left: 50%;
-        transform: translateX(-50%);
-        background: ${type === 'success' ? '#00c896' : '#ff4d6d'};
-        color: #fff;
-        padding: 14px 28px;
-        border-radius: 50px;
-        font-size: 1rem;
-        font-family: 'Poppins', sans-serif;
-        font-weight: 600;
-        box-shadow: 0 8px 30px rgba(0,0,0,0.3);
-        z-index: 9999;
-        opacity: 0;
-        transition: opacity 0.4s ease;
-    `;
-    document.body.appendChild(toast);
-
-    // Fade in
-    requestAnimationFrame(() => { toast.style.opacity = '1'; });
-
-    // Fade out after 4 seconds
-    setTimeout(() => {
-        toast.style.opacity = '0';
-        setTimeout(() => toast.remove(), 400);
-    }, 4000);
+// Contact form opens WhatsApp with a ready message. No server needed.
+var form = document.getElementById('waForm');
+if (form) {
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var data = new FormData(form);
+    var text = form.dataset.hello + ' ' + data.get('name').trim() + '.\n' +
+      form.dataset.need + ' ' + data.get('type') + '.\n' + data.get('details').trim();
+    window.open('https://wa.me/201148333903?text=' + encodeURIComponent(text), '_blank', 'noopener');
+  });
 }
-
-// 1. Project tab switching
-function openProject(evt, projectName) {
-    var i, projectContent, projBtn;
-
-    projectContent = document.getElementsByClassName("project-content");
-    for (i = 0; i < projectContent.length; i++) {
-        projectContent[i].style.display = "none";
-        projectContent[i].classList.remove("active");
-    }
-
-    projBtn = document.getElementsByClassName("proj-btn");
-    for (i = 0; i < projBtn.length; i++) {
-        projBtn[i].className = projBtn[i].className.replace(" active", "");
-    }
-
-    const selectedProject = document.getElementById(projectName);
-    selectedProject.style.display = "block";
-    selectedProject.classList.add("active");
-    evt.currentTarget.className += " active";
-
-    selectedProject.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-}
-
-// 2. Typed.js animation
-const typed = new Typed('.multiple-text', {
-    strings: [
-        'Flutter Developer',
-        'Data Science Specialist',
-        'Mobile App Architect',
-        'Computing Student'
-    ],
-    typeSpeed: 70,
-    backSpeed: 70,
-    backDelay: 1000,
-    loop: true
-});
-
-// 3. Smooth scroll for navbar links (also closes mobile menu)
-document.querySelectorAll('nav a').forEach(anchor => {
-    anchor.addEventListener('click', function(e) {
-        e.preventDefault();
-        const targetId = this.getAttribute('href');
-        document.querySelector(targetId).scrollIntoView({ behavior: 'smooth' });
-        // Close mobile menu after click
-        document.getElementById('navbar').classList.remove('open');
-        hamburgerIcon.className = 'bx bx-menu';
-    });
-});
-
-// 4. Hamburger menu toggle
-const hamburger = document.getElementById('hamburger');
-const navbar = document.getElementById('navbar');
-const hamburgerIcon = hamburger.querySelector('i');
-
-hamburger.addEventListener('click', () => {
-    navbar.classList.toggle('open');
-    hamburgerIcon.className = navbar.classList.contains('open') ? 'bx bx-x' : 'bx bx-menu';
-});
-
-// Close menu when clicking outside
-document.addEventListener('click', (e) => {
-    if (!hamburger.contains(e.target) && !navbar.contains(e.target)) {
-        navbar.classList.remove('open');
-        hamburgerIcon.className = 'bx bx-menu';
-    }
-});
