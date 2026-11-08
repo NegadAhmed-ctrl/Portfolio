@@ -1,0 +1,65 @@
+{
+  "_note": "DEMO DATA. 'Smile Hub Dental' is a fictional clinic. Replace every value with the real client's information before going live.",
+  "id": "smile-hub-dental",
+  "name": { "en": "Smile Hub Dental Clinic", "ar": "عيادة سمايل هب لطب الأسنان" },
+  "assistantName": { "en": "Nour", "ar": "نور" },
+  "timezone": "Africa/Cairo",
+  "currency": { "en": "EGP", "ar": "جنيه" },
+  "phone": "+20 3 000 0000",
+  "address": { "en": "14 Fawzy Moaz St, Smouha, Alexandria (2nd floor)", "ar": "١٤ شارع فوزي معاذ، سموحة، الإسكندرية (الدور التاني)" },
+  "mapsUrl": "https://maps.google.com/?q=Smouha+Alexandria",
+  "slotStepMinutes": 30,
+  "minNoticeMinutes": 60,
+  "bookingWindowDays": 21,
+  "hours": {
+    "sat": [["12:00", "21:00"]],
+    "sun": [["12:00", "21:00"]],
+    "mon": [["12:00", "21:00"]],
+    "tue": [["12:00", "21:00"]],
+    "wed": [["12:00", "21:00"]],
+    "thu": [["12:00", "18:00"]],
+    "fri": []
+  },
+  "services": [
+    { "id": "checkup", "duration": 30, "price": "300", "name": { "en": "Check-up & consultation", "ar": "كشف واستشارة" }, "keywords": ["checkup", "check up", "consultation", "exam", "كشف", "استشاره", "استشارة", "فحص"] },
+    { "id": "cleaning", "duration": 45, "price": "600", "name": { "en": "Scaling & cleaning", "ar": "تنظيف جير" }, "keywords": ["cleaning", "clean", "scaling", "tartar", "تنظيف", "جير", "تلميع"] },
+    { "id": "filling", "duration": 45, "price": "from 700", "priceAr": "من ٧٠٠", "name": { "en": "Filling", "ar": "حشو" }, "keywords": ["filling", "cavity", "حشو", "حشوه", "تسوس", "سوسة", "سوسه"] },
+    { "id": "rootcanal", "duration": 60, "price": "from 2,000", "priceAr": "من ٢٠٠٠", "name": { "en": "Root canal (first visit)", "ar": "علاج عصب (أول جلسة)" }, "keywords": ["root canal", "nerve", "endo", "عصب", "حشو عصب", "علاج عصب"] },
+    { "id": "whitening", "duration": 60, "price": "3,500", "name": { "en": "Teeth whitening", "ar": "تبييض أسنان" }, "keywords": ["whitening", "whiten", "bleaching", "تبييض", "تفتيح"] },
+    { "id": "ortho", "duration": 30, "price": "400", "name": { "en": "Braces consultation", "ar": "استشارة تقويم" }, "keywords": ["braces", "orthodontic", "ortho", "aligners", "تقويم", "شفاف"] }
+  ],
+  "faq": [
+    { "id": "hours", "keywords": ["hours", "open", "opening", "close", "closing", "time", "working", "مواعيد", "مفتوح", "بتفتحوا", "بتقفلوا", "الساعه كام", "شغالين", "اجازه", "اجازة", "الجمعه", "الجمعة"],
+      "en": "We're open Saturday to Wednesday 12 pm to 9 pm, and Thursday 12 pm to 6 pm. We're closed on Fridays.",
+      "ar": "مواعيدنا من السبت للأربع من ١٢ الضهر لـ ٩ بالليل، والخميس من ١٢ لـ ٦. الجمعة إجازة." },
+    { "id": "location", "keywords": ["where", "address", "location", "located", "directions", "map", "parking", "فين", "عنوان", "العنوان", "مكان", "مكانكم", "لوكيشن", "الموقع", "اوصل", "باركنج", "ركن"],
+      "en": "We're at 14 Fawzy Moaz St, Smouha, Alexandria, 2nd floor. There's street parking in front of the building. Map: https://maps.google.com/?q=Smouha+Alexandria",
+      "ar": "إحنا في ١٤ شارع فوزي معاذ، سموحة، الدور التاني. فيه ركن قدام العمارة. اللوكيشن: https://maps.google.com/?q=Smouha+Alexandria" },
+    { "id": "prices", "keywords": ["price", "prices", "cost", "how much", "fees", "list", "سعر", "اسعار", "أسعار", "بكام", "تكلفه", "تكلفة"],
+      "en": "__PRICE_LIST__",
+      "ar": "__PRICE_LIST__" },
+    { "id": "insurance", "keywords": ["insurance", "medical card", "company", "تأمين", "تامين", "كارنيه", "شركات"],
+      "en": "We currently accept AXA and MetLife cards. Please bring your card and national ID to the visit. For other companies, our reception team can check for you.",
+      "ar": "بنتعامل حاليًا مع كروت AXA و MetLife. هات الكارت والبطاقة معاك في الزيارة. لو شركة تانية، الريسبشن يقدر يتأكد لك." },
+    { "id": "payment", "keywords": ["pay", "payment", "credit card", "debit card", "cash", "instapay", "installments", "visa", "دفع", "فيزا", "كاش", "انستاباي", "تقسيط", "اقساط"],
+      "en": "You can pay cash, by card, or by InstaPay at the clinic. Installments are available for whitening and braces — the doctor explains the options during the consultation.",
+      "ar": "الدفع كاش أو فيزا أو InstaPay في العيادة. فيه تقسيط للتبييض والتقويم، والدكتور بيشرح الاختيارات في الكشف." },
+    { "id": "doctors", "keywords": ["doctor", "dentist", "who", "specialist", "female", "دكتور", "دكتوره", "دكتورة", "مين", "اخصائي", "ست"],
+      "en": "Our team: Dr. Mona Adel (general & cosmetic dentistry) and Dr. Karim Fathy (orthodontics, Sun/Tue). Tell me if you prefer a specific doctor and I'll note it on your booking.",
+      "ar": "الفريق: د. منى عادل (أسنان عامة وتجميل) ود. كريم فتحي (تقويم، الحد والتلات). لو حابب دكتور معين قولي وأنا أكتبها في الحجز." },
+    { "id": "kids", "keywords": ["kids", "children", "child", "son", "daughter", "pediatric", "اطفال", "أطفال", "ابني", "بنتي", "طفل"],
+      "en": "Yes, we see children from age 4. For the first visit we recommend a check-up so the doctor can assess and make it comfortable for them.",
+      "ar": "أيوه، بنستقبل الأطفال من سن ٤ سنين. أول زيارة بننصح بكشف عشان الدكتور يقيّم ويخليها مريحة ليهم." },
+    { "id": "cancel-policy", "keywords": ["late", "policy", "cancellation", "deposit", "no show", "سياسه", "سياسة", "اتأخر", "عربون", "تأخير"],
+      "en": "Please cancel or reschedule at least 3 hours before your appointment. If you're more than 15 minutes late, we may need to move you to the next free slot. No deposit is needed for regular visits.",
+      "ar": "ياريت تلغي أو تغيّر الميعاد قبلها بـ ٣ ساعات على الأقل. لو اتأخرت أكتر من ربع ساعة ممكن ننقلك لأقرب ميعاد فاضي. مفيش عربون للزيارات العادية." }
+  ],
+  "handoff": {
+    "staffName": { "en": "our reception team", "ar": "فريق الريسبشن" },
+    "replyWithin": { "en": "within working hours, usually in under 30 minutes", "ar": "في مواعيد العمل، غالبًا في أقل من نص ساعة" }
+  },
+  "emergency": {
+    "en": "If this is a medical emergency (heavy bleeding that won't stop, swelling that affects breathing or swallowing, or a serious injury), please call 123 or go to the nearest emergency department now.",
+    "ar": "لو دي حالة طوارئ (نزيف مش بيقف، ورم مأثر على التنفس أو البلع، أو إصابة شديدة) اتصل بـ ١٢٣ أو روح أقرب طوارئ فورًا."
+  }
+}

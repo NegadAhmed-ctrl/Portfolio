@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nour – 24/7 booking assistant for clinics | Negad Builds</title>
+<meta name="description" content="A bilingual Arabic/English assistant that answers patient questions from the clinic's own information, books into Google Calendar, and hands tricky chats to staff. Live sandbox demo.">
+<meta name="theme-color" content="#0E6B63">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%230E6B63'/%3E%3Ctext x='16' y='22' font-size='16' text-anchor='middle' fill='white' font-family='Arial' font-weight='700'%3EN%3C/text%3E%3C/svg%3E">
+<link rel="preload" href="fonts/cairo-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="demo.css">
+</head>
+<body>
+<header class="nav"><div class="wrap">
+  <a class="brand" href="#top"><span class="dot">N</span><span>Nour <small data-i18n="brandSub">AI Receptionist</small></span></a>
+  <nav><a href="#demo" data-i18n="navDemo">Live demo</a><a href="#dashboard" data-i18n="navDash">Clinic dashboard</a><a href="#honest" data-i18n="navReal">What's real</a><a href="#how" data-i18n="navHow">How it works</a></nav>
+  <button class="lang" id="langBtn" type="button">العربية</button>
+  <a class="cta" id="ctaTop" href="#" target="_blank" rel="noopener" data-i18n="ctaTop">Get it for your clinic</a>
+</div></header>
+
+<main id="top">
+<section class="hero" id="demo"><div class="wrap">
+  <div>
+    <span class="eyebrow" data-i18n="eyebrow">For dental & medical clinics, beauty and physio centers</span>
+    <h1 data-i18n-html="h1">Every patient message answered, and booked, <em>even at 2 am.</em></h1>
+    <p class="lead" data-i18n="lead">Nour replies on your website, Telegram or WhatsApp in Arabic and English. It answers from your own price list and policies, books free slots into Google Calendar, and passes anything sensitive to your reception team.</p>
+    <div class="handles"><ul>
+      <li><i>?</i><div><b data-i18n="h1t">Answers from your info</b><span data-i18n="h1d">Prices, hours, location, insurance. If it isn't in your info, it says so.</span></div></li>
+      <li><i>◷</i><div><b data-i18n="h2t">Books real free slots</b><span data-i18n="h2d">Checks the calendar, re-checks before confirming, no double booking.</span></div></li>
+    </ul><ul>
+      <li><i>↻</i><div><b data-i18n="h3t">Change or cancel by code</b><span data-i18n="h3d">Patients reschedule themselves. Late changes go to staff.</span></div></li>
+      <li><i>☺</i><div><b data-i18n="h4t">Hands over to a human</b><span data-i18n="h4d">Medical questions, emergencies and complaints go to your team.</span></div></li>
+    </ul></div>
+    <div class="try">
+      <h3 data-i18n="tryTitle">Try saying</h3>
+      <div class="chips" id="tryChips"></div>
+    </div>
+  </div>
+
+  <div class="chat" aria-label="Chat demo">
+    <div class="chat-head">
+      <div class="avatar" aria-hidden="true">N</div>
+      <div><b id="clinicName">Smile Hub Dental</b><small data-i18n="online">Online · replies instantly</small></div>
+      <span class="mode" id="modeBadge" data-i18n="sandbox">Sandbox demo</span>
+    </div>
+    <div class="msgs" id="msgs" aria-live="polite"></div>
+    <form class="compose" id="compose" autocomplete="off">
+      <input id="input" maxlength="500" data-i18n-ph="ph" placeholder="Type a message… e.g. book a cleaning tomorrow" aria-label="Message">
+      <button type="submit" aria-label="Send"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M3.4 20.4 21 12 3.4 3.6 3.4 10l12 2-12 2z"/></svg></button>
+    </form>
+    <div class="disclaimer"><span data-i18n="disc">Demo clinic and data are fictional. No messages are sent.</span> <button class="reset" id="resetBtn" type="button" data-i18n="reset">Reset demo</button></div>
+  </div>
+</div></section>
+
+<section class="sec" id="dashboard"><div class="wrap">
+  <div class="sec-head"><span class="kicker" data-i18n="dashK">The clinic side</span><h2 data-i18n="dashH">What your reception team sees</h2><p data-i18n="dashP">Everything the assistant does lands here: the calendar, every booking, messages waiting for approval, and chats that need a person. Book something in the chat and watch it appear.</p></div>
+  <div class="dash">
+    <div class="dash-top" role="tablist">
+      <button class="dtab" role="tab" aria-selected="true" data-tab="cal" data-i18n="tCal">Calendar</button>
+      <button class="dtab" role="tab" aria-selected="false" data-tab="book"><span data-i18n="tBook">Bookings</span><span class="count" id="cBook"></span></button>
+      <button class="dtab" role="tab" aria-selected="false" data-tab="out"><span data-i18n="tOut">Approval queue</span><span class="count" id="cOut"></span></button>
+      <button class="dtab" role="tab" aria-selected="false" data-tab="hand"><span data-i18n="tHand">Needs a human</span><span class="count" id="cHand"></span></button>
+      <button class="dtab" role="tab" aria-selected="false" data-tab="leads" data-i18n="tLeads">Leads</button>
+      <button class="dtab" role="tab" aria-selected="false" data-tab="log" data-i18n="tLog">Activity log</button>
+    </div>
+    <div class="dpanel" id="dpanel"></div>
+  </div>
+</div></section>
+
+<section class="sec" id="honest"><div class="wrap">
+  <div class="sec-head"><span class="kicker" data-i18n="honK">No smoke and mirrors</span><h2 data-i18n="honH">What's real in this demo, and what's simulated</h2></div>
+  <div class="cols">
+    <div class="card real"><h3 data-i18n="realH">Working for real</h3><ul data-i18n-list="realL">
+      <li>Arabic & English understanding (Egyptian dialect)</li><li>Booking, rescheduling and cancelling logic</li><li>Free-slot search from opening hours and busy times</li><li>Double-booking and duplicate prevention</li><li>Answers only from the clinic's own information</li><li>Medical-advice guardrail and emergency handoff</li><li>Approval queue for every outgoing message</li></ul></div>
+    <div class="card sim"><h3 data-i18n="simH">Simulated here</h3><ul data-i18n-list="simL">
+      <li>The calendar is an in-browser copy, not Google Calendar</li><li>Confirmations and reminders are never actually sent</li><li>"Busy" slots are sample appointments</li><li>Everything resets when you reload the page</li><li>AI phrasing is off; answers come straight from the clinic's info</li></ul></div>
+    <div class="card need"><h3 data-i18n="needH">Switched on per client</h3><ul data-i18n-list="needL">
+      <li>Google Calendar (service account) – adapter built and tested with mocks</li><li>Telegram bot – built and tested with mocks</li><li>WhatsApp Cloud API – adapter ready, needs the clinic's Meta account</li><li>Google Sheets CRM via n8n – workflows built and executed in sandbox</li><li>Claude / Gemini / OpenAI-compatible AI – optional, swappable</li></ul></div>
+  </div>
+</div></section>
+
+<section class="sec" id="how"><div class="wrap">
+  <div class="sec-head"><span class="kicker" data-i18n="howK">Under the hood</span><h2 data-i18n="howH">How it works</h2></div>
+  <ol class="steps">
+    <li><b data-i18n="s1t">Patient sends a message</b><span data-i18n="s1d">Website chat, Telegram, or WhatsApp. Same assistant everywhere.</span></li>
+    <li><b data-i18n="s2t">Assistant understands & checks</b><span data-i18n="s2d">Finds the service, date and time, then asks the calendar what's actually free.</span></li>
+    <li><b data-i18n="s3t">Booking is created</b><span data-i18n="s3d">Event in Google Calendar, row in the CRM sheet, confirmation queued for approval.</span></li>
+    <li><b data-i18n="s4t">n8n does the back office</b><span data-i18n="s4d">Sends approved reminders, alerts staff about handoffs, emails a daily summary.</span></li>
+  </ol>
+</div></section>
+
+<section class="sec"><div class="wrap">
+  <div class="final"><div><h2 data-i18n="finalH">Want this answering your clinic's messages?</h2><p data-i18n="finalP">I set it up with your services, prices and calendar, test it with your team, then hand it over.</p></div>
+  <a class="cta" id="ctaBottom" href="#" target="_blank" rel="noopener" data-i18n="ctaBottom">Talk to Negad on WhatsApp</a></div>
+</div></section>
+</main>
+<footer><div class="wrap" data-i18n="foot">Built by Negad Builds · Alexandria, Egypt · Demo clinic "Smile Hub Dental" is fictional.</div></footer>
+<script type="module" src="demo.js"></script>
+</body>
+</html>
