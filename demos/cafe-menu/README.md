@@ -68,8 +68,15 @@ python3 -m http.server 8080
 ```
 
 ## Tests
+Unit tests (cart math, sizes, validation, WhatsApp message, Google Sheet CSV parsing), no dependencies:
 ```bash
 node --test demos/cafe-menu/tests/order.test.mjs
+```
+End-to-end smoke test in a real browser (dine-in from a table QR, delivery validation and minimum order, Arabic-Indic phone digits, cart restored after refresh, zero console errors):
+```bash
+pip install playwright && python -m playwright install chromium
+python demos/cafe-menu/tests/e2e_smoke.py            # live demo
+python demos/cafe-menu/tests/e2e_smoke.py http://localhost:8080/demos/cafe-menu/
 ```
 
 ## Possible next steps for a client
