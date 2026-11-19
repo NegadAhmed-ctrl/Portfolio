@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <base href="/Portfolio/demos/auth-kit/">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#221A66">
+  <title>Auth Kit · Flutter login, sign-up, OTP & password reset | Negad Builds</title>
+  <meta name="description" content="Flutter authentication kit demo: login, registration, email verification by OTP, password reset, Arabic + English, light + dark. Clean architecture + Cubit.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Auth Kit · Flutter authentication demo">
+  <meta property="og:description" content="Login, sign-up, OTP email verification and password reset. Arabic + English, light + dark. Try it live.">
+  <meta property="og:url" content="https://negadahmed-ctrl.github.io/Portfolio/demos/auth-kit/">
+  <meta property="og:image" content="https://negadahmed-ctrl.github.io/Portfolio/demos/auth-kit/showcase/og.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Auth Kit">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="manifest" href="manifest.json">
+  <style>
+    html, body { margin: 0; height: 100%; background: #0F0E1F; }
+    #boot { position: fixed; inset: 0; display: grid; place-items: center;
+      background: linear-gradient(135deg, #221A66, #5B47E0 55%, #8B6CFF); transition: opacity .3s; }
+    #boot i { width: 34px; height: 34px; border-radius: 50%; border: 3px solid rgba(255,255,255,.3);
+      border-top-color: #fff; animation: s .8s linear infinite; }
+    @keyframes s { to { transform: rotate(360deg); } }
+    @media (prefers-reduced-motion: reduce) { #boot i { animation-duration: 3s; } }
+  </style>
+</head>
+<body>
+  <div id="boot" aria-label="Loading"><i></i></div>
+  <noscript>This demo needs JavaScript. هذا العرض يحتاج تفعيل JavaScript.</noscript>
+  <script>
+    window.addEventListener('flutter-first-frame', function () {
+      var b = document.getElementById('boot');
+      if (b) { b.style.opacity = '0'; setTimeout(function () { b.remove(); }, 320); }
+    });
+  </script>
+  <script src="flutter_bootstrap.js" async></script>
+</body>
+</html>

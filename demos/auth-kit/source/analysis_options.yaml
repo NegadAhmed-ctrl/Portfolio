@@ -1,0 +1,15 @@
+include: package:flutter_lints/flutter.yaml
+
+analyzer:
+  exclude:
+    - lib/core/l10n/gen/**
+    - build/**
+    - web/**
+
+linter:
+  rules:
+    prefer_const_constructors: true
+    prefer_final_locals: true
+    require_trailing_commas: false
+    avoid_print: true
+    always_declare_return_types: true
