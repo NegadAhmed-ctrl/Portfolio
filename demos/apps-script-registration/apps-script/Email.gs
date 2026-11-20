@@ -10,12 +10,12 @@ function escapeHtml(s) {
 }
 
 function emailShell_(title, bodyHtml, center) {
-  return '<div dir="rtl" style="font-family:Tahoma,Arial,sans-serif;background:#f3f1ea;padding:24px">' +
-    '<div style="max-width:520px;margin:auto;background:#fff;border-radius:14px;overflow:hidden;border:1px solid #e3ded2">' +
-    '<div style="background:#0f4c3a;color:#fff;padding:18px 22px;font-size:18px;font-weight:bold">' + escapeHtml(center) + '</div>' +
+  return '<div dir="rtl" style="font-family:Tahoma,Arial,sans-serif;background:#eef0f3;padding:24px">' +
+    '<div style="max-width:520px;margin:auto;background:#fff;border-radius:4px;overflow:hidden;border:1px solid #c9d1de">' +
+    '<div style="background:#1c2b4a;color:#fcfcfa;padding:18px 22px;font-size:18px;font-weight:bold;border-bottom:3px solid #b8322a">' + escapeHtml(center) + '</div>' +
     '<div style="padding:22px;color:#1f2a24;font-size:15px;line-height:1.8">' +
     '<h2 style="margin:0 0 10px;font-size:19px">' + escapeHtml(title) + '</h2>' + bodyHtml +
-    '</div><div style="padding:12px 22px;background:#f7f6f1;color:#6b746e;font-size:12px">رسالة آلية من نظام التسجيل. للاستفسار رد على الإيميل ده.</div></div></div>';
+    '</div><div style="padding:12px 22px;background:#f3f5f8;color:#5d6577;font-size:12px">رسالة آلية من نظام التسجيل. للاستفسار رد على الإيميل ده.</div></div></div>';
 }
 
 function detailsTable_(rows) {
@@ -69,7 +69,7 @@ function buildReportEmail(report, opts) {
       ['مكرر / بيانات غلط (اتمنعوا)', report.totals.duplicate + ' / ' + report.totals.invalid],
       ['أخطاء في السجل الأسبوع ده', report.errorsThisWeek]
     ]) +
-    '<table style="width:100%;border-collapse:collapse;font-size:14px"><tr style="background:#eef5f1">' +
+    '<table style="width:100%;border-collapse:collapse;font-size:14px"><tr style="background:#eef1f7">' +
     '<th style="' + cell + '">المجموعة</th><th style="' + cell + '">مؤكد</th><th style="' + cell + '">متاح</th><th style="' + cell + '">انتظار</th></tr>';
   report.groups.forEach(function (g) {
     html += '<tr><td style="' + cell + '">' + escapeHtml(g.name) + '</td><td style="' + cell + '">' + g.confirmed + ' / ' + g.capacity +

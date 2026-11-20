@@ -126,12 +126,14 @@
     values.forEach(function (row, r) {
       var tr = document.createElement('tr');
       if (r === 0) tr.className = 'hdr';
-      if (currentSheet === 'التسجيلات' && r + 1 === highlightRow) tr.className = 'added';
+      if (currentSheet === 'التسجيلات' && r + 1 === highlightRow) tr.classList.add('added');
+      if (r > 0 && statusCol >= 0 && row[statusCol] === 'مكرر') tr.classList.add('is-dup');
       var rn = document.createElement('td'); rn.className = 'rn'; rn.textContent = r + 1; tr.appendChild(rn);
       for (var c = 0; c < width; c++) {
         var td = document.createElement('td');
         td.dir = 'auto';
         var v = row[c] == null ? '' : row[c];
+        if (c === statusCol) td.className = 'st';
         if (r > 0 && c === statusCol && v) {
           var pill = document.createElement('span');
           pill.className = 'pill ' + (STATUS_CLASS[v] || '');
@@ -160,7 +162,7 @@
     list.textContent = '';
     $('mailCount').textContent = fakes.outbox.length;
     if (!fakes.outbox.length) {
-      var e = document.createElement('li'); e.className = 'empty'; e.textContent = 'لسه مفيش. ابعت الفورم.'; list.appendChild(e);
+      var e = document.createElement('li'); e.className = 'empty'; e.textContent = 'لسه مفيش إيميلات. ابعت الاستمارة وأول إيميل هيظهر هنا.'; list.appendChild(e);
       return;
     }
     fakes.outbox.slice().reverse().forEach(function (m) {
@@ -227,6 +229,37 @@
     $('mailDialog').showModal();
   }
 
+  // A printed booking receipt + a rubber stamp: the "result" of each form.
+  var STAMP = {
+    'مؤكد': { text: 'تم الحجز', cls: 'ink' },
+    'قائمة انتظار': { text: 'قائمة انتظار', cls: 'ochre' },
+    'مكرر': { text: 'مسجّل قبل كده', cls: 'grey' },
+    'بيانات غير صحيحة': { text: 'راجع البيانات', cls: '' }
+  };
+  function showReceipt(res, row, mailed) {
+    var rc = $('receipt');
+    $('trayEmpty').hidden = true;
+    rc.hidden = false;
+    $('rDate').textContent = GasFakes.formatDate(new Date(), TZ, 'yyyy-MM-dd HH:mm');
+    $('rRef').textContent = res ? res.ref : '—';
+    $('rName').textContent = row[1] || '—';
+    $('rGroup').textContent = row[5] || '—';
+    var note = res ? (res.note || '') : 'حصل خطأ واتسجل في سجل الأخطاء';
+    if (res && (res.status === 'مؤكد' || res.status === 'قائمة انتظار')) note += (note ? '، ' : '') + (mailed ? 'واتبعت إيميل لولي الأمر' : 'والإيميل مستني الحد اليومي');
+    $('rNote').textContent = note;
+    var st = STAMP[res && res.status] || { text: 'خطأ', cls: '' };
+    var stamp = $('rStamp');
+    stamp.className = 'stamp ' + st.cls;
+    stamp.textContent = st.text;
+    if (res && res.status === 'قائمة انتظار') {
+      if (res.position) { var sm = document.createElement('small'); sm.textContent = 'رقم ' + res.position; stamp.appendChild(sm); }
+    }
+    rc.classList.remove('printing');
+    void rc.offsetWidth;
+    rc.classList.add('printing');
+    stamp.classList.add('land');
+  }
+
   function fill(v) {
     $('f-name').value = v.name; $('f-phone').value = v.phone; $('f-email').value = v.email;
     $('f-grade').value = v.grade; $('f-group').value = v.group; $('f-notes').value = v.notes || '';
@@ -274,6 +307,7 @@
     renderAll();
     scrollToRow(r);
     var mailed = fakes.outbox.length > before;
+    showReceipt(res, row, mailed);
     if (!res) {
       setFlow({ form: 'ok', validate: 'fail', dup: 'skip', seat: 'skip', sheet: 'warn', email: 'skip' });
       toast('حصل خطأ واتسجل في "سجل الأخطاء"');
@@ -281,10 +315,8 @@
       var states = Object.assign({}, FLOW[res.status]);
       if (states.email === 'ok' && !mailed) states.email = 'warn';
       setFlow(states);
-      var msg = res.ref + ' · ' + res.status;
-      if (res.status === 'مؤكد' || res.status === 'قائمة انتظار') msg += mailed ? ' · اتبعت إيميل لولي الأمر' : ' · الإيميل مستني الحد اليومي';
-      else msg += ' · ' + res.note;
-      toast(msg);
+      var rc = $('receipt').getBoundingClientRect();
+      if (rc.bottom > window.innerHeight || rc.top < 0) $('receipt').scrollIntoView({ block: 'nearest', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
       $('lastResult').textContent = 'آخر تسجيل: ' + res.ref + ' (' + res.status + ')';
       if (res.status !== 'بيانات غير صحيحة' && res.status !== 'مكرر') $('form').reset();
     }
@@ -321,6 +353,7 @@
     });
     $('reset').addEventListener('click', function () {
       fresh(); renderAll(); setFlow({}); $('lastResult').textContent = ''; $('form').reset();
+      $('receipt').hidden = true; $('trayEmpty').hidden = false;
       toast('الديمو رجع لأوله');
     });
     $('mailClose').addEventListener('click', function () { $('mailDialog').close(); });

@@ -64,6 +64,15 @@ apps-script-registration/
 - **Codes from the row number** (`MN-0007`): unique, stable, and no counter that can drift.
 - **Never lose a registration.** A failing email or an unexpected error never undoes a confirmed row; it is logged, marked, and retried.
 
+## Visual design of the demo page
+
+The demo is dressed as the center's own paper register, not as a SaaS dashboard:
+- **Concept:** the hard-cover student register (ledger navy cover label, ruled rows, a red margin rule next to the row numbers) and a printed booking receipt (إيصال حجز) that slides out after every form and gets a rubber stamp: تم الحجز / قائمة انتظار / مسجّل قبل كده / راجع البيانات.
+- **Palette:** ledger navy `#1c2b4a`, ballpoint ink `#2a4ba0`, stamp red `#b8322a`, paper `#fcfcfa` on desk grey `#e6e9ee`; ochre `#a86b12` only for the waitlist.
+- **Type (self-hosted in `fonts/`):** Reem Kufi for the cover label, El Messiri for headings, IBM Plex Sans Arabic for text and the sheet, Aref Ruqaa only for handwriting (the margin note and the stamp).
+- **Details that carry meaning:** the route checks draw themselves step by step, a duplicate row is struck through like a crossed-out line in a register, statuses look like ink stamps, and the confirmation emails use the same navy + red rule.
+- Respects `prefers-reduced-motion`, keyboard focus is visible, no horizontal scroll at 390 px.
+
 ## Install on a client's Google account (about 10 minutes)
 Deploying needs the client's own Google account (the emails are sent from it). Steps for the client or for Negad on a screen share:
 1. Create the Google Form with these questions (titles must match `CONFIG.questions`): اسم الطالب · موبايل ولي الأمر · الإيميل · الصف الدراسي (dropdown) · المجموعة (dropdown) · ملاحظات.
