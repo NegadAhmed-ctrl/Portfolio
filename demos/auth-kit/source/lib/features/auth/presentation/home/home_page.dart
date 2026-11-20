@@ -39,7 +39,7 @@ class HomePage extends StatelessWidget {
               gradient: AppColors.brandGradient,
               borderRadius: BorderRadius.vertical(bottom: Radius.circular(28)),
             ),
-            padding: EdgeInsets.fromLTRB(16, MediaQuery.paddingOf(context).top + 14, 12, 72),
+            padding: EdgeInsets.fromLTRB(16, MediaQuery.paddingOf(context).top + 14, 12, 18),
             child: Center(
               child: ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: 720),
@@ -57,8 +57,8 @@ class HomePage extends StatelessWidget {
           ),
         ),
         SliverToBoxAdapter(
-          child: Transform.translate(
-            offset: const Offset(0, -52),
+          child: Padding(
+            padding: const EdgeInsets.only(top: 20),
             child: Center(
               child: ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: 720),

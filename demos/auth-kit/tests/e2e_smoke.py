@@ -65,8 +65,7 @@ def wait_text(page, text):
 
 
 def demo_code(page):
-    """Reads the 6-digit code from the on-screen demo inbox."""
-    wait_text(page, "Demo inbox")
+    """Reads the 6-digit code from the on-screen demo inbox (any language)."""
     deadline = time.time() + 10
     while time.time() < deadline:
         found = re.findall(r"\b\d{6}\b", screen_text(page))

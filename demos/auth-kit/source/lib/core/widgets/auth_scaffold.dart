@@ -52,9 +52,8 @@ class AuthScaffold extends StatelessWidget {
             ])
           : CustomScrollView(slivers: [
               const SliverToBoxAdapter(child: _CompactHeader()),
-              SliverToBoxAdapter(
-                child: Transform.translate(offset: const Offset(0, -28), child: form),
-              ),
+              const SliverToBoxAdapter(child: SizedBox(height: 20)),
+              SliverToBoxAdapter(child: form),
             ]),
     );
   }
@@ -218,7 +217,7 @@ class _CompactHeader extends StatelessWidget {
         gradient: AppColors.brandGradient,
         borderRadius: BorderRadius.vertical(bottom: Radius.circular(28)),
       ),
-      padding: EdgeInsets.fromLTRB(16, MediaQuery.paddingOf(context).top + 14, 12, 48),
+      padding: EdgeInsets.fromLTRB(16, MediaQuery.paddingOf(context).top + 14, 12, 18),
       child: const Row(children: [
         _Logo(),
         Spacer(),
