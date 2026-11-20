@@ -1,0 +1,9 @@
+{
+  "name": "apps-script-registration",
+  "private": true,
+  "description": "Google Form → Sheet → validation → duplicate check → email → weekly report (Google Apps Script)",
+  "scripts": {
+    "test": "node --test tests/registration.test.mjs",
+    "e2e": "python3 tests/e2e_smoke.py"
+  }
+}
