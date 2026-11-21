@@ -1,0 +1,4 @@
+data/clean/sales_clean.csv
+data/clean/rows_to_review.csv
+__pycache__/
+.pytest_cache/

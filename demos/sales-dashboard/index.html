@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>كشف تحليل المبيعات · حلواني الفيروز (ديمو) · Negad Builds</title>
+<meta name="description" content="ديمو: داتا مبيعات سنة كاملة لـ 3 فروع، اتنضفت بـ Python واتحولت لملف Excel ولوحة تحليل تفاعلية بفلاتر وملاحظات. بيانات تجريبية.">
+<meta property="og:title" content="كشف تحليل المبيعات: من ملف Excel ملخبط لأرقام تتقري">
+<meta property="og:description" content="تنضيف داتا بـ Python، ملف Excel بمؤشرات ورسومات، ولوحة تحليل بالفروع والقنوات والمواسم. ديمو ببيانات وهمية.">
+<meta property="og:image" content="https://negadahmed-ctrl.github.io/Portfolio/demos/sales-dashboard/showcase/og.jpg">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#EEF3E4">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%224%22 fill=%22%23EEF3E4%22/%3E%3Crect y=%220%22 width=%2232%22 height=%225%22 fill=%22%232F4A36%22/%3E%3Cpath d=%22M7 26V17M13 26V12M19 26V19M25 26V9%22 stroke=%22%231F2B24%22 stroke-width=%223%22/%3E%3C/svg%3E">
+<link rel="preload" href="fonts/Vazirmatn-400-arabic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/Amiri-700-arabic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="fonts/fonts.css">
+<link rel="stylesheet" href="css/style.css">
+<script type="module" src="js/app.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">روح للأرقام</a>
+<div class="desk">
+  <nav class="index-tabs" aria-label="الفرع" id="branchTabs"></nav>
+
+  <div class="pad">
+    <header class="pad-head">
+      <div class="title-block">
+        <p class="printed">ورقة تحليل · <span id="shopName">حلواني الفيروز</span>، إسكندرية</p>
+        <h1>كشف تحليل المبيعات</h1>
+      </div>
+      <p class="sample" title="المحل والأسماء والأرقام وهمية، معمولة للديمو">بيانات تجريبية</p>
+    </header>
+
+    <form class="fill-in" id="filters" aria-label="الفلاتر" onsubmit="return false">
+      <div class="field period">
+        <span class="field-label">عن الفترة من</span>
+        <select id="from" aria-label="من شهر"></select>
+        <span class="field-label">لحد</span>
+        <select id="to" aria-label="لحد شهر"></select>
+        <span class="presets" id="presets" role="group" aria-label="فترات جاهزة"></span>
+      </div>
+      <fieldset class="field channels" id="channels">
+        <legend class="field-label">القنوات</legend>
+      </fieldset>
+    </form>
+
+    <nav class="sheets" role="tablist" aria-label="صفحات الدفتر">
+      <button role="tab" id="tab-report" aria-controls="page-report" aria-selected="true">الكشف</button>
+      <button role="tab" id="tab-clean" aria-controls="page-clean" aria-selected="false" tabindex="-1">تنضيف الداتا</button>
+      <button role="tab" id="tab-excel" aria-controls="page-excel" aria-selected="false" tabindex="-1">ملف الإكسل</button>
+    </nav>
+
+    <main id="main">
+      <section class="page" id="page-report" role="tabpanel" aria-labelledby="tab-report">
+        <p class="state" id="state" role="status">بنحمّل دفتر السنة…</p>
+        <div id="report" hidden>
+          <p class="scope" id="scope"></p>
+          <div class="totals" id="totals"></div>
+
+          <section class="block trend-block">
+            <div class="block-head"><h2 id="trendTitle">صافي المبيعات شهر بشهر</h2><p class="hint">المواسم متعلّمة بالأصفر</p></div>
+            <div class="chart-wrap" id="trend"></div>
+          </section>
+
+          <div class="split">
+            <section class="block">
+              <div class="block-head"><h2>الأقسام</h2><p class="hint">دوس على قسم يفلتر جدول الأصناف</p></div>
+              <div id="cats"></div>
+            </section>
+            <section class="block">
+              <div class="block-head"><h2>نصيب كل قناة</h2><p class="hint" id="chanLegend"></p></div>
+              <div id="chans"></div>
+            </section>
+          </div>
+
+          <section class="block">
+            <div class="block-head"><h2>أيام الأسبوع</h2><p class="hint">متوسط البيع في اليوم الواحد</p></div>
+            <div id="week"></div>
+          </section>
+
+          <section class="block">
+            <div class="block-head"><h2 id="prodTitle">الأصناف</h2><button type="button" class="link" id="clearCat" hidden>كل الأقسام</button></div>
+            <div class="ledger-wrap"><table class="ledger" id="products"></table></div>
+          </section>
+
+          <section class="block notes" id="notes">
+            <div class="block-head"><h2>ملاحظات على السنة</h2><p class="hint">محسوبة من الداتا كلها، مش من الفلتر</p></div>
+            <ol class="note-list" id="noteList"></ol>
+          </section>
+        </div>
+      </section>
+
+      <section class="page" id="page-clean" role="tabpanel" aria-labelledby="tab-clean" hidden>
+        <div class="block-head"><h2>من التصدير الخام للجدول النظيف</h2></div>
+        <p class="lede" id="cleanLede"></p>
+        <div class="sources" id="sources"></div>
+        <div class="block">
+          <div class="block-head"><h2>صفوف حقيقية من الملف الخام</h2>
+            <button type="button" class="btn" id="runClean">نضّف الصفوف دي</button></div>
+          <div class="ledger-wrap"><table class="ledger raw" id="rawRows"></table></div>
+          <p class="state small" id="cleanStatus" role="status"></p>
+        </div>
+        <div class="block">
+          <div class="block-head"><h2>سجل التنضيف</h2><p class="hint">كل تعديل متعدّ، مفيش صف بيختفي من غير سبب</p></div>
+          <table class="ledger log" id="cleanLog"></table>
+        </div>
+      </section>
+
+      <section class="page" id="page-excel" role="tabpanel" aria-labelledby="tab-excel" hidden>
+        <div class="block-head"><h2>الملف اللي العميل بيستلمه</h2></div>
+        <p class="lede">نفس الأرقام اللي في الكشف، في ملف Excel بيفتح على أي جهاز: معادلات SUMIFS بتتحدث لما تختار الفرع، رسومات جاهزة، وجدول نظيف بفلاتر يتفتح كمان في Power BI.</p>
+        <div class="downloads">
+          <a class="btn" href="data/excel/alfayrouz_sales_analysis.xlsx" download>نزّل ملف الإكسل <small>3.4 MB</small></a>
+          <a class="btn ghost" href="data/raw/sales_export_raw.csv" download>نزّل الملف الخام قبل التنضيف <small>CSV · 4.2 MB</small></a>
+        </div>
+        <figure class="sheet-shot">
+          <img src="showcase/screen-excel.webp" alt="شيت المؤشرات في ملف الإكسل: اختيار الفرع والأرقام ورسم الشهور" loading="lazy" width="1200" height="700">
+          <figcaption>شيت "المؤشرات" بعد ما يتفتح: الفرع بيتختار من الخلية الصفرا.</figcaption>
+        </figure>
+        <table class="ledger sheets-list">
+          <thead><tr><th scope="col">الشيت</th><th scope="col">فيه إيه</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">المؤشرات</th><td>صافي المبيعات والمرتجعات وعدد الفواتير ومتوسط الفاتورة، ورسم الشهور. كله معادلات على البيانات النظيفة، والفرع بيتختار من قايمة.</td></tr>
+            <tr><th scope="row">شهري × فرع</th><td>كل شهر لكل فرع، زي Pivot Table، ورسم خطوط للفروع التلاتة.</td></tr>
+            <tr><th scope="row">الأقسام والقنوات</th><td>كل قسم في كل قناة، ونصيب في الفرع وطلبات والتليفون شهر بشهر.</td></tr>
+            <tr><th scope="row">أعلى الأصناف</th><td>ترتيب الأصناف بالإيراد والكمية والنصيب.</td></tr>
+            <tr><th scope="row">ملاحظات</th><td>الملاحظات الست ومعاها المقترح، بالأرقام.</td></tr>
+            <tr><th scope="row">سجل التنضيف</th><td>كل مشكلة اتلقت في الداتا وعدد الصفوف ومثال قبل وبعد.</td></tr>
+            <tr><th scope="row">البيانات النظيفة</th><td>كل سطر فاتورة بعد التنضيف، جدول Excel بفلاتر، والمرتجعات بالسالب.</td></tr>
+          </tbody>
+        </table>
+      </section>
+    </main>
+
+    <footer class="pad-foot">
+      <p>ديمو: "حلواني الفيروز" والأسماء والأرقام وهمية، معمولة عشان تبان زي داتا محل حقيقي. الكود: Python وpandas للتنضيف، openpyxl للإكسل، والصفحة دي JavaScript من غير مكتبات.</p>
+      <p class="mark">Negad Builds</p>
+    </footer>
+  </div>
+</div>
+<div class="tip" id="tip" role="tooltip" hidden></div>
+</body>
+</html>
