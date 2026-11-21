@@ -7,7 +7,8 @@
   const CUSTOMER = 101, ADMIN = 900;
   const NAMES = { [CUSTOMER]: "مريم حسن", [ADMIN]: "سامح فؤاد" };
   const DEMO_PHONE = "01012345678";
-  const BOT_FILES = ["__init__.py", "catalog.py", "domain.py", "storage.py", "sheets.py", "engine.py"];
+  // __init__.py is written directly: GitHub Pages (Jekyll) does not serve files starting with "_".
+  const BOT_FILES = ["catalog.py", "domain.py", "storage.py", "sheets.py", "engine.py"];
   const STEPS = ["جديد", "اتستلم", "في الغسيل", "جاهز", "اتسلّم"];
 
   const $ = (s, el = document) => el.querySelector(s);
@@ -307,7 +308,7 @@
       if (typeof loadPyodide !== "function") throw new Error("pyodide.js did not load");
       py = await loadPyodide();
       py.FS.mkdirTree("/home/pyodide/bot");
-      py.FS.mkdirTree("/home/pyodide/demo");
+      py.FS.writeFile("/home/pyodide/bot/__init__.py", "");
       $(".boot-text").textContent = "بنحمّل ملفات البوت…";
       await Promise.all(BOT_FILES.map(async (f) => {
         const res = await fetch(`bot/${f}`);
@@ -329,7 +330,7 @@
     } catch (err) {
       console.warn(err);
       boot.classList.add("error");
-      $(".boot-text").innerHTML = "مقدرناش نحمّل Python في المتصفح (محتاج إنترنت). ";
+      $(".boot-text").innerHTML = "مقدرناش نشغّل كود البوت في المتصفح. اتأكد من النت وجرّب تاني. ";
       const retry = document.createElement("button");
       retry.className = "btn btn-line"; retry.textContent = "جرّب تاني";
       retry.addEventListener("click", () => location.reload());
