@@ -335,4 +335,33 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get failUnknown => 'حصلت مشكلة. جرّب تاني.';
+
+  @override
+  String get cardTitle => 'بطاقة عضوية';
+
+  @override
+  String get cardHolder => 'صاحب البطاقة';
+
+  @override
+  String get cardEmail => 'الإيميل';
+
+  @override
+  String get cardNumber => 'رقم العضوية';
+
+  @override
+  String get cardIssued => 'تاريخ الإصدار';
+
+  @override
+  String get stampVerified => 'تم التحقق';
+
+  @override
+  String get stampDone => 'تم';
+
+  @override
+  String get coverIssuer => 'كيت تسجيل دخول لتطبيقات Flutter';
+
+  @override
+  String pageOf(int n) {
+    return 'صفحة $n';
+  }
 }

@@ -34,13 +34,23 @@ flutter:
   uses-material-design: true
   generate: true
   fonts:
-    - family: Cairo
+    - family: Readex
       fonts:
-        - asset: assets/fonts/Cairo-400.ttf
+        - asset: assets/fonts/ReadexPro-400.ttf
           weight: 400
-        - asset: assets/fonts/Cairo-600.ttf
+        - asset: assets/fonts/ReadexPro-500.ttf
+          weight: 500
+        - asset: assets/fonts/ReadexPro-600.ttf
           weight: 600
-        - asset: assets/fonts/Cairo-700.ttf
+        - asset: assets/fonts/ReadexPro-700.ttf
           weight: 700
-        - asset: assets/fonts/Cairo-800.ttf
+    - family: NotoKufi
+      fonts:
+        - asset: assets/fonts/NotoKufiArabic-600.ttf
+          weight: 600
+        - asset: assets/fonts/NotoKufiArabic-800.ttf
           weight: 800
+    - family: PlexMono
+      fonts:
+        - asset: assets/fonts/IBMPlexMono-500.ttf
+          weight: 500

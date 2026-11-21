@@ -1,31 +1,37 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart' show DateFormat;
 
 import '../../features/settings/settings_cubit.dart';
 import '../config/app_services.dart';
 import '../l10n/l10n.dart';
 import '../theme/app_theme.dart';
+import 'passport.dart';
 
-/// Shared layout for every auth screen.
-/// Phone: gradient header + form. Wide screens (≥ 960 px): brand panel
-/// on one side, form on the other (mirrors automatically in Arabic).
+/// Shared layout for every auth screen, styled as a passport:
+/// the oxblood cover (brand) and a data page (the form) with its
+/// machine-readable zone at the bottom.
+/// Phone: a slim cover strip on top. Wide screens (≥ 960 px): cover on
+/// one side, page on the other (mirrors automatically in Arabic).
 class AuthScaffold extends StatelessWidget {
   const AuthScaffold({
     super.key,
     required this.title,
     required this.child,
     this.subtitle,
-    this.icon = Icons.lock_person_rounded,
+    this.code = 'AUTH',
     this.below,
     this.onBack,
   });
 
   final String title;
   final String? subtitle;
-  final IconData icon;
+
+  /// Latin code printed in the page's MRZ line (e.g. `SIGN<IN`).
+  final String code;
   final Widget child;
 
-  /// Extra content under the form card (e.g. the demo inbox).
+  /// Extra content under the page (e.g. the demo inbox).
   final Widget? below;
   final VoidCallback? onBack;
 
@@ -34,112 +40,200 @@ class AuthScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final wide = MediaQuery.sizeOf(context).width >= wideBreakpoint;
-    final form = _FormColumn(
+    final page = _PageColumn(
       title: title,
       subtitle: subtitle,
-      icon: icon,
+      code: code,
       below: below,
       onBack: onBack,
-      showControls: wide,
+      wide: wide,
       child: child,
     );
+    final paper = _SecurityPaper(child: page);
 
     return Scaffold(
       body: wide
-          ? Row(children: [
-              const Expanded(flex: 5, child: _BrandPanel()),
-              Expanded(flex: 6, child: form),
-            ])
-          : CustomScrollView(slivers: [
-              const SliverToBoxAdapter(child: _CompactHeader()),
-              const SliverToBoxAdapter(child: SizedBox(height: 20)),
-              SliverToBoxAdapter(child: form),
-            ]),
+          ? Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const Expanded(flex: 5, child: _Cover()),
+                Expanded(flex: 6, child: paper),
+              ],
+            )
+          : _SecurityPaper(
+              child: CustomScrollView(
+                slivers: [
+                  const SliverToBoxAdapter(child: CoverStrip()),
+                  SliverToBoxAdapter(child: page),
+                ],
+              ),
+            ),
     );
   }
 }
 
-class _FormColumn extends StatelessWidget {
-  const _FormColumn({
+/// Faint guilloché print behind the page.
+class _SecurityPaper extends StatelessWidget {
+  const _SecurityPaper({required this.child});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    final c = Theme.of(context).colorScheme;
+    final light = c.brightness == Brightness.light;
+    return CustomPaint(
+      painter: GuillochePainter(
+        color: light ? const Color(0xFFB9C8BE) : const Color(0xFF2A3431),
+        lines: 14,
+        opacity: light ? .5 : .6,
+      ),
+      child: child,
+    );
+  }
+}
+
+class _PageColumn extends StatelessWidget {
+  const _PageColumn({
     required this.title,
     required this.subtitle,
-    required this.icon,
+    required this.code,
     required this.child,
     required this.below,
     required this.onBack,
-    required this.showControls,
+    required this.wide,
   });
 
   final String title;
   final String? subtitle;
-  final IconData icon;
+  final String code;
   final Widget child;
   final Widget? below;
   final VoidCallback? onBack;
-  final bool showControls;
+  final bool wide;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final c = theme.colorScheme;
+    final isDemo = context.read<AppServices>().isDemo;
+    final today = DateFormat('yyMMdd').format(DateTime.now());
+
     final content = Center(
       child: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: 460),
+        constraints: const BoxConstraints(maxWidth: 452),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-            if (showControls)
-              const Padding(
-                padding: EdgeInsets.only(top: 20, bottom: 28),
-                child: Align(alignment: AlignmentDirectional.centerEnd, child: SettingsControls()),
-              ),
-            Card(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(24, 24, 24, 28),
-                child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-                  Row(children: [
-                    if (onBack != null) ...[
-                      IconButton.filledTonal(
-                        tooltip: MaterialLocalizations.of(context).backButtonTooltip,
-                        onPressed: onBack,
-                        icon: const BackButtonIcon(),
-                      ),
-                      const SizedBox(width: 12),
-                    ],
-                    Container(
-                      width: 48,
-                      height: 48,
-                      decoration: BoxDecoration(
-                        color: c.primaryContainer,
-                        borderRadius: BorderRadius.circular(14),
-                      ),
-                      child: Icon(icon, color: c.onPrimaryContainer),
-                    ),
-                    const Spacer(),
-                    if (context.read<AppServices>().isDemo) const DemoChip(),
-                  ]),
-                  const SizedBox(height: 18),
-                  Semantics(
-                    header: true,
-                    child: Text(title, style: theme.textTheme.headlineSmall),
+          padding: EdgeInsets.symmetric(horizontal: wide ? 24 : 12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              if (wide)
+                const Padding(
+                  padding: EdgeInsets.only(top: 24, bottom: 32),
+                  child: Align(
+                    alignment: AlignmentDirectional.centerEnd,
+                    child: SettingsControls(),
                   ),
-                  if (subtitle != null) ...[
-                    const SizedBox(height: 6),
-                    Text(subtitle!,
-                        style: theme.textTheme.bodyMedium?.copyWith(color: c.onSurfaceVariant)),
-                  ],
-                  const SizedBox(height: 24),
-                  child,
-                ]),
+                )
+              else
+                const SizedBox(height: 16),
+              // Semantics container (like Card) keeps the form's a11y nodes
+              // stable; without it Flutter web re-creates the focused input.
+              Semantics(
+                container: true,
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    color: c.surface,
+                    borderRadius: BorderRadius.circular(AppRadii.page),
+                    border: Border.all(color: c.outlineVariant),
+                    boxShadow: [
+                      BoxShadow(
+                        color: AppColors.ink.withValues(
+                          alpha: c.brightness == Brightness.light ? .07 : .3,
+                        ),
+                        offset: const Offset(0, 1),
+                        blurRadius: 0,
+                      ),
+                    ],
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.zero,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(wide ? 32 : 20, 20, wide ? 32 : 20, 28),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              if (onBack != null || isDemo)
+                                Padding(
+                                  padding: const EdgeInsets.only(bottom: 12),
+                                  child: Row(
+                                    children: [
+                                      if (onBack != null)
+                                        IconButton(
+                                          tooltip: MaterialLocalizations.of(
+                                            context,
+                                          ).backButtonTooltip,
+                                          onPressed: onBack,
+                                          style: IconButton.styleFrom(
+                                            side: BorderSide(color: c.outlineVariant),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(AppRadii.button),
+                                            ),
+                                          ),
+                                          icon: const BackButtonIcon(),
+                                        ),
+                                      const Spacer(),
+                                      if (isDemo) const DemoChip(),
+                                    ],
+                                  ),
+                                ),
+                              Semantics(
+                                header: true,
+                                child: Text(title, style: theme.textTheme.headlineSmall),
+                              ),
+                              if (subtitle != null) ...[
+                                const SizedBox(height: 4),
+                                Text(
+                                  subtitle!,
+                                  style: theme.textTheme.bodyMedium?.copyWith(
+                                    color: c.onSurfaceVariant,
+                                  ),
+                                ),
+                              ],
+                              const SizedBox(height: 24),
+                              child,
+                            ],
+                          ),
+                        ),
+                        // Machine-readable zone: the page's signature detail.
+                        Container(
+                          decoration: BoxDecoration(
+                            color: c.surfaceContainer,
+                            borderRadius: const BorderRadius.vertical(
+                              bottom: Radius.circular(AppRadii.page - 1),
+                            ),
+                          ),
+                          padding: EdgeInsets.fromLTRB(wide ? 32 : 20, 10, wide ? 32 : 20, 12),
+                          child: MrzBlock(
+                            lines: ['P<EGYAUTH<KIT<<$code', 'NB$today<<FLUTTER<BLOC<CLEAN<ARCH'],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ),
-            ),
-            if (below != null) ...[const SizedBox(height: 16), below!],
-            const SizedBox(height: 32),
-          ]),
+              if (below != null) ...[const SizedBox(height: 16), below!],
+              const SizedBox(height: 32),
+            ],
+          ),
         ),
       ),
     );
-    if (!showControls) return content;
+    if (!wide) return content;
     // Wide screens: vertically centered, still scrollable on short windows.
     return LayoutBuilder(
       builder: (context, box) => SingleChildScrollView(
@@ -152,100 +246,170 @@ class _FormColumn extends StatelessWidget {
   }
 }
 
-class _BrandPanel extends StatelessWidget {
-  const _BrandPanel();
+/// The passport cover: oxblood with a foil frame and emblem.
+class _Cover extends StatelessWidget {
+  const _Cover();
 
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    const white = Colors.white;
+    const ivory = Color(0xFFF6EEE2);
     final points = [l10n.brandPoint1, l10n.brandPoint2, l10n.brandPoint3, l10n.brandPoint4];
-    return DecoratedBox(
-      decoration: const BoxDecoration(gradient: AppColors.brandGradient),
-      child: Stack(children: [
-        const Positioned.fill(child: CustomPaint(painter: _DotsPainter())),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(48, 40, 48, 36),
-          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            const _Logo(),
-            const Spacer(),
-            Text(l10n.brandHeadline,
-                style: const TextStyle(
-                    color: white, fontSize: 38, fontWeight: FontWeight.w800, height: 1.25)),
-            const SizedBox(height: 16),
-            Text(l10n.brandBody,
-                style: TextStyle(color: white.withValues(alpha: .82), fontSize: 16, height: 1.7)),
-            const SizedBox(height: 28),
-            for (final p in points)
-              Padding(
-                padding: const EdgeInsets.only(bottom: 12),
-                child: Row(children: [
-                  Container(
-                    width: 26,
-                    height: 26,
-                    decoration: BoxDecoration(
-                      color: white.withValues(alpha: .16),
-                      borderRadius: BorderRadius.circular(8),
+    return ColoredBox(
+      color: AppColors.cover,
+      child: Padding(
+        padding: const EdgeInsets.all(18),
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            border: Border.all(color: AppColors.foil.withValues(alpha: .55), width: 1),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(40, 36, 40, 28),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    const FoilEmblem(size: 56),
+                    const SizedBox(width: 14),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            l10n.appName,
+                            style: const TextStyle(
+                              fontFamily: AppFonts.display,
+                              fontFamilyFallback: [AppFonts.text],
+                              color: AppColors.foil,
+                              fontSize: 24,
+                              fontWeight: FontWeight.w800,
+                              height: 1.3,
+                            ),
+                          ),
+                          Text(
+                            l10n.coverIssuer,
+                            style: TextStyle(
+                              color: AppColors.foil.withValues(alpha: .85),
+                              fontSize: 13.5,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                    child: const Icon(Icons.check_rounded, color: white, size: 18),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: Text(p,
+                  ],
+                ),
+                const Spacer(flex: 3),
+                ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 440),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        l10n.brandHeadline,
                         style: const TextStyle(
-                            color: white, fontSize: 15.5, fontWeight: FontWeight.w600)),
+                          fontFamily: AppFonts.display,
+                          fontFamilyFallback: [AppFonts.text],
+                          color: ivory,
+                          fontSize: 34,
+                          fontWeight: FontWeight.w800,
+                          height: 1.45,
+                        ),
+                      ),
+                      const SizedBox(height: 14),
+                      Text(
+                        l10n.brandBody,
+                        style: TextStyle(
+                          color: ivory.withValues(alpha: .78),
+                          fontSize: 15.5,
+                          height: 1.75,
+                        ),
+                      ),
+                      const SizedBox(height: 26),
+                      for (final p in points)
+                        Container(
+                          padding: const EdgeInsets.symmetric(vertical: 11),
+                          decoration: BoxDecoration(
+                            border: Border(
+                              top: BorderSide(color: AppColors.foil.withValues(alpha: .3)),
+                            ),
+                          ),
+                          child: Row(
+                            children: [
+                              Transform.rotate(
+                                angle: .785,
+                                child: Container(width: 7, height: 7, color: AppColors.foil),
+                              ),
+                              const SizedBox(width: 14),
+                              Expanded(
+                                child: Text(
+                                  p,
+                                  style: const TextStyle(
+                                    color: ivory,
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                    ],
                   ),
-                ]),
-              ),
-            const Spacer(),
-            Text('${l10n.brandName} · Flutter · Bloc · Clean Architecture',
-                style: TextStyle(color: white.withValues(alpha: .7), fontSize: 13)),
-          ]),
+                ),
+                const Spacer(flex: 2),
+                Text(
+                  l10n.brandName,
+                  style: TextStyle(
+                    color: AppColors.foil.withValues(alpha: .8),
+                    fontSize: 13,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
-      ]),
+      ),
     );
   }
 }
 
-class _CompactHeader extends StatelessWidget {
-  const _CompactHeader();
+/// Phone header: a slim strip of the cover.
+class CoverStrip extends StatelessWidget {
+  const CoverStrip({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(
-        gradient: AppColors.brandGradient,
-        borderRadius: BorderRadius.vertical(bottom: Radius.circular(28)),
-      ),
-      padding: EdgeInsets.fromLTRB(16, MediaQuery.paddingOf(context).top + 14, 12, 18),
-      child: const Row(children: [
-        _Logo(),
-        Spacer(),
-        SettingsControls(onDark: true),
-      ]),
-    );
-  }
-}
-
-class _Logo extends StatelessWidget {
-  const _Logo();
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(mainAxisSize: MainAxisSize.min, children: [
-      Container(
-        width: 38,
-        height: 38,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(11),
+      color: AppColors.cover,
+      padding: EdgeInsets.fromLTRB(16, MediaQuery.paddingOf(context).top + 12, 12, 12),
+      child: Center(
+        child: ConstrainedBox(
+          // On the wide home page the strip lines up with the content.
+          constraints: const BoxConstraints(maxWidth: 600),
+          child: Row(
+            children: [
+              const FoilEmblem(size: 36),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Text(
+                  context.l10n.appName,
+                  style: const TextStyle(
+                    fontFamily: AppFonts.display,
+                    fontFamilyFallback: [AppFonts.text],
+                    color: AppColors.foil,
+                    fontSize: 19,
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+              ),
+              const SettingsControls(onDark: true),
+            ],
+          ),
         ),
-        child: const Icon(Icons.shield_rounded, color: AppColors.brand, size: 22),
       ),
-      const SizedBox(width: 10),
-      Text(context.l10n.appName,
-          style: const TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w800)),
-    ]);
+    );
   }
 }
 
@@ -259,80 +423,73 @@ class SettingsControls extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final settings = context.watch<SettingsCubit>().state;
-    final fg = onDark ? Colors.white : Theme.of(context).colorScheme.onSurface;
+    final fg = onDark ? const Color(0xFFF6EEE2) : Theme.of(context).colorScheme.onSurface;
     final icon = switch (settings.themeMode) {
-      ThemeMode.light => Icons.light_mode_rounded,
-      ThemeMode.dark => Icons.dark_mode_rounded,
-      ThemeMode.system => Icons.brightness_auto_rounded,
+      ThemeMode.light => Icons.light_mode_outlined,
+      ThemeMode.dark => Icons.dark_mode_outlined,
+      ThemeMode.system => Icons.brightness_auto_outlined,
     };
     final themeName = switch (settings.themeMode) {
       ThemeMode.light => l10n.themeLight,
       ThemeMode.dark => l10n.themeDark,
       ThemeMode.system => l10n.themeSystem,
     };
-    final side = BorderSide(color: fg.withValues(alpha: .28));
-    return Row(mainAxisSize: MainAxisSize.min, children: [
-      OutlinedButton(
-        key: const Key('toggle-language'),
-        style: OutlinedButton.styleFrom(
-          foregroundColor: fg,
-          side: side,
-          minimumSize: const Size(0, 40),
-          padding: const EdgeInsets.symmetric(horizontal: 14),
+    final side = BorderSide(color: fg.withValues(alpha: .3));
+    final shape = RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppRadii.button));
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        OutlinedButton(
+          key: const Key('toggle-language'),
+          style: OutlinedButton.styleFrom(
+            foregroundColor: fg,
+            side: side,
+            shape: shape,
+            minimumSize: const Size(0, 40),
+            padding: const EdgeInsets.symmetric(horizontal: 14),
+          ),
+          onPressed: () => context.read<SettingsCubit>().toggleLocale(),
+          child: Text(l10n.languageToggle),
         ),
-        onPressed: () => context.read<SettingsCubit>().toggleLocale(),
-        child: Text(l10n.languageToggle),
-      ),
-      const SizedBox(width: 8),
-      IconButton.outlined(
-        key: const Key('toggle-theme'),
-        tooltip: '${l10n.themeTooltip}: $themeName',
-        style: IconButton.styleFrom(foregroundColor: fg, side: side),
-        onPressed: () => context.read<SettingsCubit>().cycleTheme(),
-        icon: Icon(icon, size: 20),
-      ),
-    ]);
+        const SizedBox(width: 8),
+        IconButton.outlined(
+          key: const Key('toggle-theme'),
+          tooltip: '${l10n.themeTooltip}: $themeName',
+          style: IconButton.styleFrom(foregroundColor: fg, side: side, shape: shape),
+          onPressed: () => context.read<SettingsCubit>().cycleTheme(),
+          icon: Icon(icon, size: 20),
+        ),
+      ],
+    );
   }
 }
 
+/// "Demo" marker: a small rectangular rubber stamp, not a pill.
 class DemoChip extends StatelessWidget {
   const DemoChip({super.key});
 
   @override
   Widget build(BuildContext context) {
     final c = Theme.of(context).colorScheme;
+    final ink = c.brightness == Brightness.light
+        ? const Color(0xFF94600F)
+        : const Color(0xFFE2B15C);
     return Tooltip(
       message: context.l10n.demoModeNote,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-        decoration: BoxDecoration(
-          color: AppColors.warning.withValues(alpha: .16),
-          borderRadius: BorderRadius.circular(99),
-          border: Border.all(color: AppColors.warning.withValues(alpha: .5)),
+      child: Transform.rotate(
+        angle: -.04,
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 1),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(2),
+            border: Border.all(color: ink, width: 1.4),
+          ),
+          child: Text(
+            context.l10n.demoBadge,
+            style: TextStyle(color: ink, fontWeight: FontWeight.w700, fontSize: 12.5),
+          ),
         ),
-        child: Text(context.l10n.demoBadge,
-            style: TextStyle(
-                color: c.brightness == Brightness.light ? const Color(0xFF9A5B00) : AppColors.warning,
-                fontWeight: FontWeight.w800,
-                fontSize: 12.5)),
       ),
     );
   }
-}
-
-class _DotsPainter extends CustomPainter {
-  const _DotsPainter();
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()..color = Colors.white.withValues(alpha: .07);
-    for (double x = 12; x < size.width; x += 26) {
-      for (double y = 12; y < size.height; y += 26) {
-        canvas.drawCircle(Offset(x, y), 1.4, paint);
-      }
-    }
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }

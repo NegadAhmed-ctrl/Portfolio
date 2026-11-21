@@ -56,7 +56,7 @@ class _LoginViewState extends State<_LoginView> {
         return AuthScaffold(
           title: l10n.loginTitle,
           subtitle: l10n.loginSubtitle,
-          icon: Icons.login_rounded,
+          code: 'SIGN<IN',
           child: AutofillGroup(
             child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
               FailureBanner(failure: state.failure),

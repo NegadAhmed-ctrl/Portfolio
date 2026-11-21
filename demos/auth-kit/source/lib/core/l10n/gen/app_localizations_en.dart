@@ -337,4 +337,33 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get failUnknown => 'Something went wrong. Please try again.';
+
+  @override
+  String get cardTitle => 'Membership card';
+
+  @override
+  String get cardHolder => 'Holder';
+
+  @override
+  String get cardEmail => 'Email';
+
+  @override
+  String get cardNumber => 'Member no.';
+
+  @override
+  String get cardIssued => 'Issued';
+
+  @override
+  String get stampVerified => 'Verified';
+
+  @override
+  String get stampDone => 'Done';
+
+  @override
+  String get coverIssuer => 'Sign-in kit for Flutter apps';
+
+  @override
+  String pageOf(int n) {
+    return 'Page $n';
+  }
 }

@@ -43,7 +43,7 @@ class _ForgotView extends StatelessWidget {
         return AuthScaffold(
           title: l10n.forgotTitle,
           subtitle: l10n.forgotSubtitle,
-          icon: Icons.lock_reset_rounded,
+          code: 'FORGOT<PASSWORD',
           onBack: () => context.canPop() ? context.pop() : context.go(Routes.login),
           child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
             FailureBanner(failure: state.failure),

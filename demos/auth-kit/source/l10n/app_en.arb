@@ -10,14 +10,12 @@
   "themeDark": "Dark",
   "themeSystem": "System",
   "loading": "Please wait…",
-
   "brandHeadline": "One secure sign-in flow, ready for your app",
   "brandBody": "Login, sign-up, email verification and password reset, built once with clean architecture and reused in every project.",
   "brandPoint1": "Email and password with live validation",
   "brandPoint2": "Email verification with a 6-digit code",
   "brandPoint3": "Password reset by code, no links to lose",
   "brandPoint4": "Arabic and English, light and dark",
-
   "emailLabel": "Email",
   "emailHint": "name@example.com",
   "passwordLabel": "Password",
@@ -27,7 +25,6 @@
   "newPasswordLabel": "New password",
   "showPassword": "Show password",
   "hidePassword": "Hide password",
-
   "loginTitle": "Welcome back",
   "loginSubtitle": "Sign in to continue to your account.",
   "forgotPasswordLink": "Forgot password?",
@@ -36,46 +33,80 @@
   "createAccountLink": "Create an account",
   "useDemoAccount": "Fill the demo account",
   "demoAccountHint": "Demo account: {email} / {password}",
-  "@demoAccountHint": {"placeholders": {"email": {"type": "String"}, "password": {"type": "String"}}},
-
+  "@demoAccountHint": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      },
+      "password": {
+        "type": "String"
+      }
+    }
+  },
   "registerTitle": "Create your account",
   "registerSubtitle": "It takes less than a minute.",
   "createAccountButton": "Create account",
   "haveAccount": "Already have an account?",
   "signInLink": "Sign in",
-
   "verifyEmailTitle": "Verify your email",
   "verifyEmailSubtitle": "We sent a 6-digit code to {email}.",
-  "@verifyEmailSubtitle": {"placeholders": {"email": {"type": "String"}}},
+  "@verifyEmailSubtitle": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
   "otpLabel": "6-digit code",
   "verifyButton": "Verify",
   "resendCode": "Resend code",
   "resendIn": "Resend in {seconds}s",
-  "@resendIn": {"placeholders": {"seconds": {"type": "int"}}},
+  "@resendIn": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
   "codeResent": "A new code is on its way.",
   "useAnotherAccount": "Use another account",
-
   "forgotTitle": "Forgot your password?",
   "forgotSubtitle": "Enter your email and we'll send you a 6-digit code to reset it.",
   "sendCodeButton": "Send code",
   "forgotSentNote": "If an account exists for {email}, a code is on its way.",
-  "@forgotSentNote": {"placeholders": {"email": {"type": "String"}}},
+  "@forgotSentNote": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
   "backToSignIn": "Back to sign in",
   "resetCodeTitle": "Enter the reset code",
   "continueButton": "Continue",
-
   "resetTitle": "Choose a new password",
   "resetSubtitle": "Use something you don't use on other sites.",
   "savePasswordButton": "Save new password",
   "resetSuccessTitle": "Password updated",
   "resetSuccessBody": "Your password was changed. Sign in with the new one.",
-
   "homeGreeting": "Hi, {name}",
-  "@homeGreeting": {"placeholders": {"name": {"type": "String"}}},
+  "@homeGreeting": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "homeSubtitle": "You're signed in. Refresh the page: the session stays.",
   "emailVerified": "Email verified",
   "memberSince": "Member since {date}",
-  "@memberSince": {"placeholders": {"date": {"type": "String"}}},
+  "@memberSince": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
   "signOut": "Sign out",
   "homeChecklistTitle": "What this kit covers",
   "checkLogin": "Login with validation, loading and error states",
@@ -84,7 +115,6 @@
   "checkReset": "Forgot password → code → new password",
   "checkPersist": "Session saved across restarts",
   "checkArchitecture": "Clean architecture + Cubit, tested",
-
   "inboxTitle": "Demo inbox",
   "inboxSubtitle": "In a real app this arrives by email. Here it is shown on screen.",
   "inboxEmpty": "No emails yet.",
@@ -92,14 +122,18 @@
   "inboxResetSubject": "Your password reset code",
   "inboxUseCode": "Use code",
   "inboxTo": "To: {email}",
-  "@inboxTo": {"placeholders": {"email": {"type": "String"}}},
-
+  "@inboxTo": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
   "passwordRules": "8+ characters with upper and lower case letters and a number.",
   "strengthWeak": "Weak",
   "strengthFair": "Fair",
   "strengthGood": "Good",
   "strengthStrong": "Strong",
-
   "errEmailRequired": "Enter your email.",
   "errEmailInvalid": "That email doesn't look right.",
   "errPasswordRequired": "Enter your password.",
@@ -109,17 +143,38 @@
   "errNameShort": "Name is too short.",
   "errConfirmMismatch": "Passwords don't match.",
   "errOtpInvalid": "Enter the 6 digits.",
-
   "failInvalidCredentials": "Email or password is incorrect.",
   "failEmailInUse": "An account with this email already exists.",
   "failWeakPassword": "Choose a stronger password.",
   "failInvalidCode": "That code isn't correct. {left} attempts left.",
-  "@failInvalidCode": {"placeholders": {"left": {"type": "int"}}},
+  "@failInvalidCode": {
+    "placeholders": {
+      "left": {
+        "type": "int"
+      }
+    }
+  },
   "failInvalidCodePlain": "That code isn't correct.",
   "failCodeExpired": "This code expired. Request a new one.",
   "failTooManyAttempts": "Too many tries. Request a new code.",
   "failTooManyRequests": "Please wait a moment before trying again.",
   "failNetwork": "No connection. Check your internet and try again.",
   "failSessionExpired": "Your session ended. Start again.",
-  "failUnknown": "Something went wrong. Please try again."
+  "failUnknown": "Something went wrong. Please try again.",
+  "cardTitle": "Membership card",
+  "cardHolder": "Holder",
+  "cardEmail": "Email",
+  "cardNumber": "Member no.",
+  "cardIssued": "Issued",
+  "stampVerified": "Verified",
+  "stampDone": "Done",
+  "coverIssuer": "Sign-in kit for Flutter apps",
+  "pageOf": "Page {n}",
+  "@pageOf": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  }
 }

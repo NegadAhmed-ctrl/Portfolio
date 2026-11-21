@@ -32,6 +32,7 @@ void main() {
 
   Future<void> tap(WidgetTester tester, Finder f) async {
     await tester.ensureVisible(f);
+    await tester.pump(); // lay out at the new scroll offset before tapping
     await tester.tap(f);
     await tester.pumpAndSettle();
   }

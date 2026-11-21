@@ -60,7 +60,7 @@ class _VerifyView extends StatelessWidget {
         return AuthScaffold(
           title: isReset ? l10n.resetCodeTitle : l10n.verifyEmailTitle,
           subtitle: l10n.verifyEmailSubtitle(cubit.email),
-          icon: isReset ? Icons.key_rounded : Icons.mark_email_unread_rounded,
+          code: isReset ? 'RESET<CODE' : 'VERIFY<EMAIL',
           onBack: isReset ? () => context.go(Routes.login) : null,
           below: DemoInboxCard(
             email: cubit.email,

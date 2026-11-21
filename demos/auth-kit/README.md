@@ -18,7 +18,7 @@ Almost every app needs the same auth screens, and they are where users quit: unc
 - **Session persistence**: refresh the page or restart the app, you stay signed in.
 - **Route guards**: signed-out users can't reach the home screen, unverified users always land on verification.
 - **Arabic (RTL) + English**, switchable live, remembered. **Light / dark / system** theme, remembered.
-- **Responsive**: phone layout with a gradient header; on wide screens a brand panel + form side by side.
+- **Responsive**: phone layout with a slim cover strip on top; on wide screens the passport cover sits beside the form page.
 - **Accessible**: semantic headings, labelled fields and buttons, errors announced as live regions.
 
 ## Stack
@@ -51,6 +51,13 @@ l10n/app_ar.arb, app_en.arb           # all texts (Egyptian Arabic + English)
 test/                                 # 45 tests (see below)
 tool/build_demo.sh                    # builds the web demo into demos/auth-kit/
 ```
+
+## Visual design (art direction)
+- **Concept: a passport / membership card.** Signing in is "showing your papers", so the UI borrows that world instead of a generic SaaS look: an oxblood leather **cover** with a gold-foil emblem (brand panel), the form as a **data page** on security paper (faint guilloché waves), a **machine-readable zone** (MRZ, the `<<<` lines) at the bottom of every page, OTP cells that look like a passport-number field, and a **membership card** after login that gets an **ink stamp "تم التحقق / Verified"** when the email is confirmed (the one animation, skipped with reduce-motion).
+- **Palette:** oxblood `#6D1D2A`, gold foil `#C29A4E` (cover + stamps only), security paper `#ECF0EA`, ink `#1C2321`, stamp green `#1E6B59`. Dark mode = the passport at night: dark paper, foil becomes the primary color.
+- **Type:** Noto Kufi Arabic (headings, Kufi = official/stamped), Readex Pro (text, Arabic + Latin), IBM Plex Mono only where real documents use a mono face (MRZ, OTP digits, demo code). All self-hosted in `assets/fonts`.
+- **Shapes:** small radii (4 px fields, 6 px buttons, 10 px pages) instead of one big rounded-card radius everywhere; the "demo" label is a rectangular rubber stamp, not a pill.
+- Rebrand for a client = `core/theme/app_theme.dart` (colors, fonts, radii) + `core/widgets/passport.dart` (emblem, MRZ, stamp).
 
 ## Design decisions
 - **Clean architecture, kept honest.** `domain` knows nothing about Flutter or Firebase; screens only talk to `AuthRepository`. Switching the backend is one line in `main.dart`. Use-case classes are left out on purpose: here they would only forward calls; add them when real business rules appear.
@@ -97,7 +104,7 @@ Rebuild the web demo: `demos/auth-kit/source/tool/build_demo.sh`.
 Google / Apple sign-in · phone OTP (SMS) · biometric unlock · "remember this device" · account deletion screen (store requirement) · Supabase adapter · analytics events on each auth step.
 
 ## Fonts & license notes
-Cairo font (SIL Open Font License), static weights generated from the Google Fonts variable file.
+Noto Kufi Arabic, Readex Pro and IBM Plex Mono (SIL Open Font License, see `source/assets/fonts/OFL.txt`), static weights downloaded from Google Fonts.
 
 ---
 Built by **Negad Ahmed** · [Negad Builds](https://negadahmed-ctrl.github.io/Portfolio/)

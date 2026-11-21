@@ -184,18 +184,20 @@ class FailureBanner extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
                   decoration: BoxDecoration(
                     color: c.errorContainer,
-                    borderRadius: BorderRadius.circular(14),
+                    border: BorderDirectional(start: BorderSide(color: c.error, width: 3)),
                   ),
-                  child: Row(children: [
-                    Icon(Icons.error_outline_rounded, color: c.onErrorContainer, size: 20),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: Text(
-                        context.l10n.failure(failure!),
-                        style: TextStyle(color: c.onErrorContainer, fontWeight: FontWeight.w600),
+                  child: Row(
+                    children: [
+                      Icon(Icons.error_outline_rounded, color: c.onErrorContainer, size: 20),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Text(
+                          context.l10n.failure(failure!),
+                          style: TextStyle(color: c.onErrorContainer, fontWeight: FontWeight.w600),
+                        ),
                       ),
-                    ),
-                  ]),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -220,16 +222,20 @@ class InfoBanner extends StatelessWidget {
         margin: const EdgeInsets.only(bottom: 16),
         decoration: BoxDecoration(
           color: c.primaryContainer,
-          borderRadius: BorderRadius.circular(14),
+          border: BorderDirectional(start: BorderSide(color: c.primary, width: 3)),
         ),
-        child: Row(children: [
-          Icon(icon, color: c.onPrimaryContainer, size: 20),
-          const SizedBox(width: 10),
-          Expanded(
-            child: Text(text,
-                style: TextStyle(color: c.onPrimaryContainer, fontWeight: FontWeight.w600)),
-          ),
-        ]),
+        child: Row(
+          children: [
+            Icon(icon, color: c.onPrimaryContainer, size: 20),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Text(
+                text,
+                style: TextStyle(color: c.onPrimaryContainer, fontWeight: FontWeight.w600),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -248,39 +254,42 @@ class PasswordStrengthMeter extends StatelessWidget {
       PasswordStrength.empty => (0, c.outline, ''),
       PasswordStrength.weak => (1, c.error, l10n.strengthWeak),
       PasswordStrength.fair => (2, AppColors.warning, l10n.strengthFair),
-      PasswordStrength.good => (3, AppColors.success, l10n.strengthGood),
-      PasswordStrength.strong => (4, AppColors.success, l10n.strengthStrong),
+      PasswordStrength.good => (3, AppColors.verified, l10n.strengthGood),
+      PasswordStrength.strong => (4, AppColors.verified, l10n.strengthStrong),
     };
     return Padding(
       padding: const EdgeInsets.only(top: 10),
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Row(children: [
-          for (var i = 1; i <= 4; i++) ...[
-            Expanded(
-              child: AnimatedContainer(
-                duration: const Duration(milliseconds: 220),
-                height: 5,
-                decoration: BoxDecoration(
-                  color: i <= level ? color : c.outlineVariant,
-                  borderRadius: BorderRadius.circular(4),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              for (var i = 1; i <= 4; i++) ...[
+                Expanded(
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 220),
+                    height: 4,
+                    decoration: BoxDecoration(color: i <= level ? color : c.outlineVariant),
+                  ),
                 ),
-              ),
-            ),
-            if (i < 4) const SizedBox(width: 6),
-          ],
-          if (label.isNotEmpty) ...[
-            const SizedBox(width: 10),
-            Text(label,
-                style: TextStyle(color: color, fontWeight: FontWeight.w700, fontSize: 13)),
-          ],
-        ]),
-        const SizedBox(height: 6),
-        Text(l10n.passwordRules,
-            style: Theme.of(context)
-                .textTheme
-                .bodySmall
-                ?.copyWith(color: c.onSurfaceVariant)),
-      ]),
+                if (i < 4) const SizedBox(width: 6),
+              ],
+              if (label.isNotEmpty) ...[
+                const SizedBox(width: 10),
+                Text(
+                  label,
+                  style: TextStyle(color: color, fontWeight: FontWeight.w700, fontSize: 13),
+                ),
+              ],
+            ],
+          ),
+          const SizedBox(height: 6),
+          Text(
+            l10n.passwordRules,
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(color: c.onSurfaceVariant),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -340,78 +349,100 @@ class _OtpFieldState extends State<OtpField> {
     final c = Theme.of(context).colorScheme;
     final hasError = widget.errorText != null;
     final digits = widget.value;
-    return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-      Directionality(
-        textDirection: TextDirection.ltr,
-        child: Stack(children: [
-          Row(children: [
-            for (var i = 0; i < Validators.otpLength; i++) ...[
-              Expanded(
-                child: AnimatedContainer(
-                  duration: const Duration(milliseconds: 150),
-                  height: 58,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    color: c.brightness == Brightness.light ? c.surfaceContainerLow : c.surfaceContainer,
-                    borderRadius: BorderRadius.circular(14),
-                    border: Border.all(
-                      width: _isActive(i) ? 1.8 : 1,
-                      color: hasError
-                          ? c.error
-                          : _isActive(i)
-                              ? c.primary
-                              : c.outlineVariant,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Directionality(
+          textDirection: TextDirection.ltr,
+          child: Stack(
+            children: [
+              // The cells are only a picture of the hidden field's value;
+              // screen readers get the value from the field itself.
+              ExcludeSemantics(
+                child: Row(
+                  children: [
+                    for (var i = 0; i < Validators.otpLength; i++) ...[
+                      Expanded(
+                        child: AnimatedContainer(
+                          duration: const Duration(milliseconds: 150),
+                          height: 58,
+                          alignment: Alignment.center,
+                          // Passport-number cells: square corners, a heavier
+                          // underline that turns oxblood on the active cell.
+                          decoration: BoxDecoration(
+                            color: c.brightness == Brightness.light
+                                ? Colors.white
+                                : c.surfaceContainerLow,
+                            border: Border(
+                              top: BorderSide(color: hasError ? c.error : c.outline),
+                              left: BorderSide(color: hasError ? c.error : c.outline),
+                              right: BorderSide(color: hasError ? c.error : c.outline),
+                              bottom: BorderSide(
+                                width: _isActive(i) ? 3 : 1.5,
+                                color: hasError
+                                    ? c.error
+                                    : _isActive(i)
+                                    ? c.primary
+                                    : c.onSurfaceVariant,
+                              ),
+                            ),
+                          ),
+                          child: Text(
+                            i < digits.length ? digits[i] : '',
+                            style: const TextStyle(
+                              fontFamily: AppFonts.mrz,
+                              fontSize: 26,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                      ),
+                      if (i < Validators.otpLength - 1) const SizedBox(width: 8),
+                    ],
+                  ],
+                ),
+              ),
+              Positioned.fill(
+                child: Opacity(
+                  opacity: 0.011,
+                  child: TextField(
+                    key: const Key('otp-input'),
+                    controller: _controller,
+                    focusNode: _focus,
+                    enabled: widget.enabled,
+                    keyboardType: TextInputType.number,
+                    autofillHints: const [AutofillHints.oneTimeCode],
+                    showCursor: false,
+                    enableInteractiveSelection: false,
+                    inputFormatters: [
+                      FilteringTextInputFormatter.allow(RegExp('[0-9٠-٩]')),
+                      LengthLimitingTextInputFormatter(Validators.otpLength),
+                    ],
+                    decoration: InputDecoration(
+                      labelText: context.l10n.otpLabel,
+                      filled: false,
+                      border: InputBorder.none,
+                      enabledBorder: InputBorder.none,
+                      focusedBorder: InputBorder.none,
                     ),
-                  ),
-                  child: Text(
-                    i < digits.length ? digits[i] : '',
-                    style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w800),
+                    onChanged: (v) {
+                      final normalized = Validators.normalizeDigits(v);
+                      widget.onChanged(normalized);
+                      if (normalized.length == Validators.otpLength) widget.onCompleted();
+                    },
                   ),
                 ),
               ),
-              if (i < Validators.otpLength - 1) const SizedBox(width: 8),
             ],
-          ]),
-          Positioned.fill(
-            child: Opacity(
-              opacity: 0.011,
-              child: TextField(
-                key: const Key('otp-input'),
-                controller: _controller,
-                focusNode: _focus,
-                enabled: widget.enabled,
-                keyboardType: TextInputType.number,
-                autofillHints: const [AutofillHints.oneTimeCode],
-                showCursor: false,
-                enableInteractiveSelection: false,
-                inputFormatters: [
-                  FilteringTextInputFormatter.allow(RegExp('[0-9٠-٩]')),
-                  LengthLimitingTextInputFormatter(Validators.otpLength),
-                ],
-                decoration: InputDecoration(
-                  labelText: context.l10n.otpLabel,
-                  filled: false,
-                  border: InputBorder.none,
-                  enabledBorder: InputBorder.none,
-                  focusedBorder: InputBorder.none,
-                ),
-                onChanged: (v) {
-                  final normalized = Validators.normalizeDigits(v);
-                  widget.onChanged(normalized);
-                  if (normalized.length == Validators.otpLength) widget.onCompleted();
-                },
-              ),
-            ),
           ),
-        ]),
-      ),
-      if (hasError)
-        Padding(
-          padding: const EdgeInsets.only(top: 8, left: 4, right: 4),
-          child: Text(widget.errorText!,
-              style: TextStyle(color: c.error, fontSize: 12.5)),
         ),
-    ]);
+        if (hasError)
+          Padding(
+            padding: const EdgeInsets.only(top: 8, left: 4, right: 4),
+            child: Text(widget.errorText!, style: TextStyle(color: c.error, fontSize: 12.5)),
+          ),
+      ],
+    );
   }
 
   bool _isActive(int i) =>
@@ -430,11 +461,11 @@ class SwitchAuthLink extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Wrap(
-        alignment: WrapAlignment.center,
-        crossAxisAlignment: WrapCrossAlignment.center,
-        children: [
-          Text(text, style: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant)),
-          TextButton(onPressed: onTap, child: Text(action)),
-        ],
-      );
+    alignment: WrapAlignment.center,
+    crossAxisAlignment: WrapCrossAlignment.center,
+    children: [
+      Text(text, style: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant)),
+      TextButton(onPressed: onTap, child: Text(action)),
+    ],
+  );
 }

@@ -35,7 +35,7 @@ class _RegisterView extends StatelessWidget {
         return AuthScaffold(
           title: l10n.registerTitle,
           subtitle: l10n.registerSubtitle,
-          icon: Icons.person_add_alt_1_rounded,
+          code: 'SIGN<UP',
           child: AutofillGroup(
             child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
               FailureBanner(failure: state.failure),

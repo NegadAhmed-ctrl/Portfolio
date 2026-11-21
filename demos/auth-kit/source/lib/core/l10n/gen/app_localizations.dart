@@ -709,6 +709,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Something went wrong. Please try again.'**
   String get failUnknown;
+
+  /// No description provided for @cardTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Membership card'**
+  String get cardTitle;
+
+  /// No description provided for @cardHolder.
+  ///
+  /// In en, this message translates to:
+  /// **'Holder'**
+  String get cardHolder;
+
+  /// No description provided for @cardEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get cardEmail;
+
+  /// No description provided for @cardNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Member no.'**
+  String get cardNumber;
+
+  /// No description provided for @cardIssued.
+  ///
+  /// In en, this message translates to:
+  /// **'Issued'**
+  String get cardIssued;
+
+  /// No description provided for @stampVerified.
+  ///
+  /// In en, this message translates to:
+  /// **'Verified'**
+  String get stampVerified;
+
+  /// No description provided for @stampDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get stampDone;
+
+  /// No description provided for @coverIssuer.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign-in kit for Flutter apps'**
+  String get coverIssuer;
+
+  /// No description provided for @pageOf.
+  ///
+  /// In en, this message translates to:
+  /// **'Page {n}'**
+  String pageOf(int n);
 }
 
 class _AppLocalizationsDelegate

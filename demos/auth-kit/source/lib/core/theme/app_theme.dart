@@ -1,111 +1,156 @@
 import 'package:material_ui/material_ui.dart';
 
-/// Design tokens. A client rebrand = change these colors (and the font).
+/// Design tokens. Art direction: a passport / membership card.
+/// Oxblood leather cover, gold foil, security-paper pages, ink text.
+/// A client rebrand = change these colors (and the two fonts).
 abstract final class AppColors {
-  static const brandDeep = Color(0xFF221A66);
-  static const brand = Color(0xFF5B47E0);
-  static const brandLight = Color(0xFF8B6CFF);
-  static const success = Color(0xFF12A36B);
-  static const warning = Color(0xFFE59A1A);
-  static const brandGradient = LinearGradient(
-    begin: Alignment.topLeft,
-    end: Alignment.bottomRight,
-    colors: [brandDeep, brand, brandLight],
-  );
+  static const cover = Color(0xFF6D1D2A); // oxblood leather
+  static const coverDeep = Color(0xFF4E1420);
+  static const foil = Color(0xFFC29A4E); // gold foil, only on the cover + stamps
+  static const paper = Color(0xFFECF0EA); // security paper (cool, green-grey)
+  static const page = Color(0xFFFAFBF7); // the data page
+  static const ink = Color(0xFF1C2321);
+  static const inkSoft = Color(0xFF59625E);
+  static const rule = Color(0xFFCDD5CF);
+  static const verified = Color(0xFF1E6B59); // stamp ink for "verified"
+  static const warning = Color(0xFFB7791F);
+
+  // Night (dark theme): the passport on a desk at night.
+  static const nightPaper = Color(0xFF151918);
+  static const nightPage = Color(0xFF1D2220);
+  static const nightRule = Color(0xFF333B38);
+}
+
+abstract final class AppFonts {
+  static const text = 'Readex';
+  static const display = 'NotoKufi';
+  static const mrz = 'PlexMono';
+}
+
+abstract final class AppRadii {
+  static const field = 4.0;
+  static const button = 6.0;
+  static const page = 10.0;
 }
 
 abstract final class AppTheme {
-  static const _font = 'Cairo';
+  static ThemeData light() => _build(
+    const ColorScheme(
+      brightness: Brightness.light,
+      primary: AppColors.cover,
+      onPrimary: Color(0xFFFFF8EE),
+      primaryContainer: Color(0xFFF3E3E2),
+      onPrimaryContainer: AppColors.coverDeep,
+      secondary: AppColors.verified,
+      onSecondary: Colors.white,
+      tertiary: AppColors.foil,
+      error: Color(0xFFB3261E),
+      onError: Colors.white,
+      errorContainer: Color(0xFFF8E3DF),
+      onErrorContainer: Color(0xFF7A1A12),
+      surface: AppColors.page,
+      onSurface: AppColors.ink,
+      onSurfaceVariant: AppColors.inkSoft,
+      surfaceContainerLowest: AppColors.paper,
+      surfaceContainerLow: Color(0xFFF2F5F0),
+      surfaceContainer: Color(0xFFE6EBE5),
+      outline: Color(0xFFB4BEB8),
+      outlineVariant: AppColors.rule,
+    ),
+  );
 
-  static ThemeData light() => _build(const ColorScheme(
-        brightness: Brightness.light,
-        primary: AppColors.brand,
-        onPrimary: Colors.white,
-        primaryContainer: Color(0xFFE9E5FF),
-        onPrimaryContainer: Color(0xFF2A1E86),
-        secondary: Color(0xFF7A6BE8),
-        onSecondary: Colors.white,
-        error: Color(0xFFD13A4A),
-        onError: Colors.white,
-        errorContainer: Color(0xFFFDE8EA),
-        onErrorContainer: Color(0xFF8C1A26),
-        surface: Colors.white,
-        onSurface: Color(0xFF16142B),
-        onSurfaceVariant: Color(0xFF615E82),
-        surfaceContainerLowest: Color(0xFFF6F5FB),
-        surfaceContainerLow: Color(0xFFF3F1FA),
-        surfaceContainer: Color(0xFFEFEDF8),
-        outline: Color(0xFFD9D6EA),
-        outlineVariant: Color(0xFFE8E6F3),
-      ));
-
-  static ThemeData dark() => _build(const ColorScheme(
-        brightness: Brightness.dark,
-        primary: Color(0xFFA594FF),
-        onPrimary: Color(0xFF140F33),
-        primaryContainer: Color(0xFF2E2670),
-        onPrimaryContainer: Color(0xFFE4DEFF),
-        secondary: Color(0xFFB9ADFF),
-        onSecondary: Color(0xFF140F33),
-        error: Color(0xFFFF7A86),
-        onError: Color(0xFF3B0A10),
-        errorContainer: Color(0xFF4A1820),
-        onErrorContainer: Color(0xFFFFD9DC),
-        surface: Color(0xFF181730),
-        onSurface: Color(0xFFEDECFA),
-        onSurfaceVariant: Color(0xFFA9A6C8),
-        surfaceContainerLowest: Color(0xFF0F0E1F),
-        surfaceContainerLow: Color(0xFF14132A),
-        surfaceContainer: Color(0xFF1F1D3A),
-        outline: Color(0xFF34315A),
-        outlineVariant: Color(0xFF29274A),
-      ));
+  static ThemeData dark() => _build(
+    const ColorScheme(
+      brightness: Brightness.dark,
+      primary: Color(0xFFD9B36C), // foil reads better than oxblood at night
+      onPrimary: Color(0xFF2A0D13),
+      primaryContainer: Color(0xFF3E1A20),
+      onPrimaryContainer: Color(0xFFF2D9C4),
+      secondary: Color(0xFF6FC2AA),
+      onSecondary: Color(0xFF07261F),
+      tertiary: AppColors.foil,
+      error: Color(0xFFFF9A8E),
+      onError: Color(0xFF3B0A06),
+      errorContainer: Color(0xFF4B1C17),
+      onErrorContainer: Color(0xFFFFDAD4),
+      surface: AppColors.nightPage,
+      onSurface: Color(0xFFE7EAE4),
+      onSurfaceVariant: Color(0xFFA4ADA8),
+      surfaceContainerLowest: AppColors.nightPaper,
+      surfaceContainerLow: Color(0xFF191E1C),
+      surfaceContainer: Color(0xFF242A28),
+      outline: Color(0xFF4A524F),
+      outlineVariant: AppColors.nightRule,
+    ),
+  );
 
   static ThemeData _build(ColorScheme c) {
-    final base = ThemeData(useMaterial3: true, colorScheme: c, fontFamily: _font);
-    final radius = BorderRadius.circular(14);
-    OutlineInputBorder border(Color color, [double w = 1]) =>
-        OutlineInputBorder(borderRadius: radius, borderSide: BorderSide(color: color, width: w));
+    final base = ThemeData(useMaterial3: true, colorScheme: c, fontFamily: AppFonts.text);
+    OutlineInputBorder border(Color color, [double w = 1]) => OutlineInputBorder(
+      borderRadius: BorderRadius.circular(AppRadii.field),
+      borderSide: BorderSide(color: color, width: w),
+    );
+    const displayStyle = TextStyle(
+      fontFamily: AppFonts.display,
+      fontFamilyFallback: [AppFonts.text],
+    );
 
     return base.copyWith(
       scaffoldBackgroundColor: c.surfaceContainerLowest,
       textTheme: base.textTheme.copyWith(
         headlineSmall: base.textTheme.headlineSmall
-            ?.copyWith(fontWeight: FontWeight.w800, height: 1.25, color: c.onSurface),
-        titleMedium: base.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700),
-        bodyMedium: base.textTheme.bodyMedium?.copyWith(height: 1.5),
+            ?.merge(displayStyle)
+            .copyWith(fontWeight: FontWeight.w800, fontSize: 25, height: 1.45, color: c.onSurface),
+        titleMedium: base.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
+        bodyMedium: base.textTheme.bodyMedium?.copyWith(height: 1.6),
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: c.brightness == Brightness.light ? c.surfaceContainerLow : c.surfaceContainer,
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        fillColor: c.brightness == Brightness.light ? Colors.white : c.surfaceContainerLow,
+        contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 16),
         border: border(c.outline),
-        enabledBorder: border(c.outlineVariant),
-        focusedBorder: border(c.primary, 1.6),
+        enabledBorder: border(c.outline),
+        focusedBorder: border(c.primary, 1.8),
         errorBorder: border(c.error),
-        focusedErrorBorder: border(c.error, 1.6),
+        focusedErrorBorder: border(c.error, 1.8),
         labelStyle: TextStyle(color: c.onSurfaceVariant),
+        floatingLabelStyle: WidgetStateTextStyle.resolveWith(
+          (s) => TextStyle(
+            color: s.contains(WidgetState.error) ? c.error : c.primary,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
         hintStyle: TextStyle(color: c.onSurfaceVariant.withValues(alpha: .7)),
+        prefixIconColor: c.onSurfaceVariant,
         errorMaxLines: 2,
       ),
       filledButtonTheme: FilledButtonThemeData(
         style: FilledButton.styleFrom(
-          minimumSize: const Size.fromHeight(54),
-          shape: RoundedRectangleBorder(borderRadius: radius),
-          textStyle: const TextStyle(fontFamily: _font, fontSize: 16, fontWeight: FontWeight.w700),
+          minimumSize: const Size.fromHeight(52),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppRadii.button)),
+          textStyle: const TextStyle(
+            fontFamily: AppFonts.text,
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+          ),
         ),
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
-          minimumSize: const Size.fromHeight(50),
-          shape: RoundedRectangleBorder(borderRadius: radius),
+          minimumSize: const Size.fromHeight(48),
+          foregroundColor: c.onSurface,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppRadii.button)),
           side: BorderSide(color: c.outline),
-          textStyle: const TextStyle(fontFamily: _font, fontSize: 15, fontWeight: FontWeight.w700),
+          textStyle: const TextStyle(
+            fontFamily: AppFonts.text,
+            fontSize: 15,
+            fontWeight: FontWeight.w500,
+          ),
         ),
       ),
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
-          textStyle: const TextStyle(fontFamily: _font, fontWeight: FontWeight.w700),
+          textStyle: const TextStyle(fontFamily: AppFonts.text, fontWeight: FontWeight.w600),
         ),
       ),
       cardTheme: CardThemeData(
@@ -113,10 +158,11 @@ abstract final class AppTheme {
         color: c.surface,
         margin: EdgeInsets.zero,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(22),
+          borderRadius: BorderRadius.circular(AppRadii.page),
           side: BorderSide(color: c.outlineVariant),
         ),
       ),
+      dividerTheme: DividerThemeData(color: c.outlineVariant, space: 1, thickness: 1),
       snackBarTheme: const SnackBarThemeData(behavior: SnackBarBehavior.floating),
     );
   }
