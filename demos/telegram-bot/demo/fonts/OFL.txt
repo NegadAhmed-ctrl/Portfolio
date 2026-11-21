@@ -1,0 +1,1 @@
+Lalezar (Copyright Borna Izadpanah) and Noto Naskh Arabic (Copyright The Noto Project Authors), SIL Open Font License 1.1, https://openfontlicense.org. Subset to Arabic + Latin, from Google Fonts.

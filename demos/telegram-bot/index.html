@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>بوت تليجرام لاستلام الغسيل + Google Sheets | Negad Builds</title>
+  <meta name="description" content="ديمو بوت تليجرام لمغسلة: العميل يطلب استلام من البيت بالزراير، الطلب يتسجل في Google Sheet، وصاحب المغسلة يوصله إشعار ويحدّث الحالة. نفس كود Python بيشتغل في المتصفح.">
+  <meta name="theme-color" content="#173B5C">
+  <meta property="og:title" content="بوت تليجرام لاستلام الغسيل + Google Sheets">
+  <meta property="og:description" content="العميل يطلب بالزراير، الطلب يتسجل في الشيت، والمالك يحدّث الحالة والعميل يتبلغ. جرّب الديمو.">
+  <meta property="og:image" content="https://negadahmed-ctrl.github.io/Portfolio/demos/telegram-bot/showcase/og.jpg">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='10' fill='%23173B5C'/%3E%3Ccircle cx='32' cy='14' r='5' fill='%23E6EBEE'/%3E%3Crect x='14' y='24' width='36' height='28' rx='3' fill='%23F2D57E'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="demo/style.css">
+</head>
+<body>
+  <header class="sign">
+    <div class="sign-inner">
+      <div class="sign-name">
+        <span class="sign-title">مغسلة ومكوجي الندى</span>
+        <span class="sign-sub">بوت تليجرام لاستلام الغسيل من البيت · سموحة، إسكندرية</span>
+      </div>
+      <span class="stamp-demo" title="المغسلة والأسماء والأرقام وهمية">ديمو</span>
+    </div>
+  </header>
+
+  <main>
+    <section class="intro">
+      <p class="lead">العميل بيطلب من تليجرام بالزراير، الطلب بيتسجل صف في Google Sheet، وصاحب المغسلة بيوصله إشعار ويحدّث الحالة بزرار، والعميل بيتبلغ بكل خطوة.</p>
+      <p class="note">ده نفس كود البوت (Python) شغال جوه المتصفح. التليجرام والشيت هنا محاكاة، والمغسلة والأسماء وهمية.</p>
+      <div class="controls">
+        <button id="autoplay" class="btn btn-ink" disabled>شغّل طلب كامل لوحده</button>
+        <button id="outage" class="btn btn-line" disabled aria-pressed="false">اقطع الشيت (جرّب العطل)</button>
+        <button id="reset" class="btn btn-line" disabled>ابدأ من الأول</button>
+      </div>
+    </section>
+
+    <section class="stage" aria-label="الديمو">
+      <div class="tabs" role="tablist" aria-label="اختار الشاشة">
+        <button role="tab" aria-selected="true" aria-controls="phone-customer" data-tab="customer">العميل</button>
+        <button role="tab" aria-selected="false" aria-controls="phone-admin" data-tab="admin">صاحب المغسلة <span class="dot" hidden></span></button>
+        <button role="tab" aria-selected="false" aria-controls="sheet-panel" data-tab="sheet">الشيت <span class="dot" hidden></span></button>
+      </div>
+
+      <article class="phone" id="phone-customer" data-panel="customer" aria-label="شات العميل مع البوت">
+        <div class="phone-top">
+          <span class="avatar">ن</span>
+          <div><b>مغسلة الندى</b><small>بوت</small></div>
+          <span class="who">مريم حسن</span>
+        </div>
+        <div class="chat" aria-live="polite"></div>
+        <div class="kbd" hidden></div>
+        <form class="composer" autocomplete="off">
+          <label class="sr" for="customer-input">رسالة للبوت</label>
+          <input id="customer-input" name="msg" placeholder="اكتب رسالة…" disabled>
+          <button type="submit" class="send" aria-label="ابعت" disabled>
+            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3 11.5 20 4l-5.5 16-3.2-6.3L3 11.5Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="m11.3 13.7 3.9-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          </button>
+        </form>
+        <div class="boot" role="status"><span class="spinner" aria-hidden="true"></span><span class="boot-text">بنشغّل كود البوت (Python) في المتصفح…</span></div>
+      </article>
+
+      <article class="phone phone-admin" id="phone-admin" data-panel="admin" aria-label="شات صاحب المغسلة">
+        <div class="phone-top">
+          <span class="avatar">ن</span>
+          <div><b>مغسلة الندى</b><small>بوت · لوحة الإدارة</small></div>
+          <span class="who">أ. سامح</span>
+        </div>
+        <div class="chat" aria-live="polite"></div>
+        <div class="quick">
+          <button class="chip" data-cmd="/today">/today</button>
+          <button class="chip" data-cmd="/stats">/stats</button>
+        </div>
+      </article>
+
+      <aside class="log" data-panel="customer" aria-label="اللي بيحصل ورا الكواليس">
+        <h2>ورا الكواليس</h2>
+        <ol id="events"></ol>
+        <p class="empty">ابدأ طلب من شات العميل، وهنا هتشوف كل خطوة بيعملها الكود.</p>
+      </aside>
+
+      <section class="sheet" id="sheet-panel" data-panel="sheet" aria-label="شيت الطلبات">
+        <div class="sheet-bar">
+          <span class="sheet-icon" aria-hidden="true"></span>
+          <b>طلبات مغسلة الندى</b>
+          <span class="sheet-state" id="sheet-state">متصل</span>
+        </div>
+        <div class="sheet-scroll"><table><thead></thead><tbody></tbody></table></div>
+      </section>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <span>Python · aiogram 3 · Google Sheets (gspread) · 35 اختبار آلي</span>
+    <a href="https://negadahmed-ctrl.github.io/Portfolio/" class="mark">Negad Builds</a>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/pyodide/v0.26.4/full/pyodide.js"></script>
+  <script src="demo/app.js"></script>
+</body>
+</html>
