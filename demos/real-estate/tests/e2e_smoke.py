@@ -84,7 +84,7 @@ def main():
         page.click("#viewing-form button[type=submit]")
         expect(page.locator(".slip")).to_contain_text("طلب المعاينة اتسجّل.")
         ref = page.locator(".slip-ref strong").inner_text()
-        assert ref.startswith("ط-SM0402R-"), ref
+        assert ref.startswith("SM0402R-"), ref
         page.click(".slip-again")
         page.check('#viewing-form input[name=when][value=tomorrow]', force=True)
         page.fill("#viewing-form input[name=name]", "مها عبد الرحمن")

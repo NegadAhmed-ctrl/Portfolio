@@ -49,7 +49,7 @@ test("WhatsApp message starts with the unit code and carries the link", () => {
 });
 
 test("lead reference is short and readable", () => {
-  assert.match(leadReference("SM-0402R", 1_700_000_000_000), /^ط-SM0402R-[0-9A-Z]{3}$/);
+  assert.match(leadReference("SM-0402R", 1_700_000_000_000), /^SM0402R-[0-9A-Z]{3}$/);
 });
 
 function memoryStorage() {

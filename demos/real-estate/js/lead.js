@@ -68,8 +68,8 @@ export function whatsappUrl(number, text) {
   return `https://wa.me/${String(number).replace(/\D/g, "")}?text=${encodeURIComponent(text)}`;
 }
 
-/** Short reference the customer can quote on the phone, e.g. "ط-LR0412-7Q3". */
+/** Short reference the customer can quote on the phone, e.g. "LR0412-7Q3" (unit code + 3 characters). */
 export function leadReference(unitId, now = Date.now()) {
   const tail = (now % 46656).toString(36).toUpperCase().padStart(3, "0");
-  return `ط-${String(unitId ?? "GEN").replace(/[^A-Z0-9]/gi, "")}-${tail}`;
+  return `${String(unitId ?? "GEN").replace(/[^A-Z0-9]/gi, "")}-${tail}`;
 }
