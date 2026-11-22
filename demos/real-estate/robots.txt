@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://negadahmed-ctrl.github.io/Portfolio/demos/real-estate/sitemap.xml
