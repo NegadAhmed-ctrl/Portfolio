@@ -1,0 +1,7 @@
+id,category,name,description,price,sizes,icon,tone,badge,sold_out
+esp,hot,إسبريسو,شوت مزدوج من بن مختص محمص طازة,,سنجل:45|دبل:60,cup,espresso,,FALSE
+lat,hot,لاتيه,إسبريسو مع لبن مبخر ورغوة ناعمة,,وسط:70|كبير:85,latte,milk,الأكثر طلبا,FALSE
+ice,cold,آيس لاتيه,لاتيه ساقع على تلج,,وسط:75|كبير:90,iced,ice,,FALSE
+lem,cold,ليمون نعناع,ليمون فريش بالنعناع ومتلج,55,,citrus,mint,,FALSE
+chs,sweet,تشيز كيك لوتس,قاعدة بسكويت لوتس وكريمة جبن,85,,cake,caramel,,FALSE
+crs,food,كرواسون زبدة,مخبوز يوميا,45,,croissant,milk,,FALSE
